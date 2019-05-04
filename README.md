@@ -41,3 +41,5 @@ networks:
     external:
       name: ts_net
 ```
+
+外挂了`configs`卷，暂时需要参考`.travis.yml`文件的`before_deploy`段手动复制配置文件，否则会导致服务无法启动

@@ -1,6 +1,6 @@
 sudo: false
 language: go
-go_import_path: github.com/TeaWeb/code/teaweb
+#go_import_path: github.com/TeaWeb/code/teaweb
 env:
   - GO111MODULE=on
 go: 1.12.x

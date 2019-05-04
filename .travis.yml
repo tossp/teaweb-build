@@ -18,16 +18,16 @@ script:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 before_deploy:
+  - curl -O http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
+  - gunzip GeoLite2-City.mmdb.gz
+  - mv GeoLite2-City.mmdb web/resources/GeoLite2-City/
   - mkdir -p releases/{bin,plugins}
-  - cp -R ./{configs,scripts,web,www,logs,upgrade.sh} releases/
+  - cp -R ./{configs,scripts,web,web/resources,www,logs,upgrade.sh} releases/
   - cp configs/admin.sample.conf releases/configs/admin.conf
   - cp configs/server.sample.conf releases/configs/server.conf
   - cp configs/mongo.sample.conf releases/configs/mongo.conf
   - cp configs/server.sample.www.proxy.conf releases/configs/server.www.proxy.conf
   - cp -R configs/widgets releases/web/libs/
-  - curl -O http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
-  - gunzip GeoLite2-City.mmdb.gz
-  - mv GeoLite2-City.mmdb releases/web/resources/GeoLite2-City/
   - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
   - GOOS=windows GOARCH=amd64 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
   - zip -9qr teaweb-windows-amd64.zip releases/
@@ -56,9 +56,8 @@ before_deploy:
   - GOOS=linux GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
   - GOOS=linux GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
   - zip -9r teaweb-linux-amd64.zip releases/
-  - cp Dockerfile releases/
   - sed -i "s/CI_TAG/${TRAVIS_TAG}/g" releases/Dockerfile
-  - docker build -t tossp/teaweb:${TRAVIS_TAG} releases/
+  - docker build -t tossp/teaweb:${TRAVIS_TAG} .
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker tag -f tossp/teaweb:${TRAVIS_TAG} tossp/teaweb:latest
   - docker push tossp/teaweb

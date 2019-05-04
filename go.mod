@@ -6,7 +6,7 @@ require (
 	github.com/Microsoft/go-winio v0.4.12 // indirect
 	github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705 // indirect
 	github.com/TeaWeb/agent v0.0.0-20190430022404-b0f6d747edce
-	github.com/TeaWeb/code v0.0.0-20190504042724-3ec3d9969342
+	github.com/TeaWeb/code v0.0.0-20190504072612-6be26c1419e1
 	github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a // indirect
 	github.com/TeaWeb/uaparser v0.0.0-20181213121349-fcd1211e77e0 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190430075129-62f3cb8727f4 // indirect

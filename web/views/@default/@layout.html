@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$.teaTitle}</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/_/@default/layout.css" media="all"/>
+    <script type="text/javascript" src="/js/teaweb.js"></script>
+
+    {$TEA.SEMANTIC}
+    {$TEA.VUE}
+    {$echo "header"}
+    <script type="text/javascript" src="/_/@default/layout.js"></script>
+</head>
+<body>
+
+<div>
+    <!-- 顶部导航 -->
+    <div class="ui menu inverted top-nav blue small borderless" v-cloak="">
+        <a href="/" class="item"><i class="icon leaf"></i>{{teaName}} &nbsp; <sup>v{{teaVersion}} - 可视化智能Web服务</sup></a>
+        <div class="right menu">
+			<a href="/notices" class="item" :class="{active:teaMenu == 'notices'}"><i class="icon bell" :class="{'blink':countNoticesBadge > 0}"></i>通知<span v-if="countNoticesBadge > 0">({{countNoticesBadge}})</span></a>
+            <a href="/settings/profile" class="item"  :class="{active: teaMenu == 'settings.profile'}">
+                <i class="icon user" v-if="teaUserAvatar.length == 0"></i>
+                <img class="avatar" :src="teaUserAvatar" v-if="teaUserAvatar.length > 0"/>
+                {{teaUsername}}
+            </a>
+            <a v-if="teaIsSuper" :href="Tea.url('settings')" class="item" :class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
+            <a v-if="!teaIsSuper" :href="Tea.url('settings.login')" class="item" :class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
+            <a :href="Tea.url('logout')" class="item" title="安全退出登录"><i class="icon sign out"></i>退出</a>
+        </div>
+    </div>
+
+    <!-- 左侧主菜单 -->
+    <div class="main-menu" v-cloak="">
+        <div class="ui labeled menu vertical blue inverted tiny borderless">
+            <a class="item"></a>
+            <a v-bind:href="Tea.url('dashboard')" class="item" v-bind:class="{active:teaMenu == 'dashboard'}">
+                <i class="ui dashboard icon"></i>
+                <span>仪表板</span>
+            </a>
+
+            <!-- 模块 -->
+            <a v-for="module in teaModules" class="item" v-bind:href="Tea.url(module.code)" v-bind:class="{active:teaMenu == module.code}">
+                <i class="window restore outline icon" v-if="module.icon == null"></i>
+                <i class="ui icon" v-if="module.icon != null" :class="module.icon"></i>
+                <span>{{module.menuName}}</span>
+            </a>
+        </div>
+    </div>
+
+
+
+    <!-- 右侧主操作栏 -->
+    <div class="main" :class="{'without-menu':teaSubMenus.menus == null || teaSubMenus.menus.length == 0}" v-cloak="">
+		<!-- 左侧子菜单 -->
+		<div class="sub-menu" v-if="teaSubMenus.menus != null && teaSubMenus.menus.length > 0">
+			<div class="menus-box">
+				<div class="ui secondary menu vertical borderless blue pointing" v-cloak="" v-for="menu in teaSubMenus.menus" v-if="!menu.alwaysActive">
+					<p class="item header" v-if="menu.name.length > 0 && !menu.alwaysActive" @click.prevent="showSubMenu(menu)">
+						<var v-html="menu.name"></var> <span v-if="!menu.alwaysActive">({{menu.countNormalItems}})</span><i class="icon angle" :class="{up:menu.isActive,down:!menu.isActive}" v-if="!menu.alwaysActive"></i>
+					</p>
+					<a :href="item.url" class="item" :class="{active:item.isActive,sortable:item.isSortable}" v-for="item in menu.items" v-show="menu.isActive || menu.alwaysActive" :data-id="item.id"><var class="grey">{{item.name}}</var><span v-if="item.subName != null && item.subName.length > 0" :class="item.subColor">{{item.subName}}</span>
+					</a>
+				</div>
+
+				<!-- bottom padding -->
+				<div class="ui secondary menu vertical" v-cloak="" v-for="menu in teaSubMenus.menus" v-if="menu.alwaysActive">
+					<span v-for="item in menu.items" class="item">&nbsp;</span>
+				</div>
+			</div>
+
+			<div class="operations-box">
+				<div class="ui divider"></div>
+				<div class="ui secondary menu vertical borderless blue pointing" v-cloak="" v-for="menu in teaSubMenus.menus" v-if="menu.alwaysActive">
+					<a :href="item.url" class="item" :class="{active:item.isActive,sortable:item.isSortable}" v-for="item in menu.items" v-show="menu.isActive || menu.alwaysActive" :data-id="item.id"><var class="grey">{{item.name}}</var><sup v-if="item.supName.length > 0">&nbsp; {{item.supName}}</sup><span v-if="item.subName != null && item.subName.length > 0" :class="item.subColor">{{item.subName}}</span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+        <!-- 操作菜单 -->
+        <div class="ui top menu tabular tab-menu" v-if="teaTabbar.length > 0">
+            <a class="item" v-for="item in teaTabbar" :class="{'active':item.active}"  :href="item.url">
+                <var>{{item.name}}<span v-if="item.subName.length > 0">({{item.subName}})</span> &nbsp;<i class="icon small" :class="item.icon" v-if="item.icon != null"></i> </var>
+            </a>
+        </div>
+
+        <!-- 功能区 -->
+        {$TEA.VIEW}
+
+        <!-- 快速到顶部 -->
+        <a href="" class="go-top-btn hidden" title="点击回到顶部" @click.prevent="goTop()" ><i class="icon up arrow circle"></i></a>
+    </div>
+
+    <!-- 底部 -->
+	<div id="footer-outer-box" v-if="footerOuterVisible" v-cloak="">
+		<div class="qrcode">
+			<a href="" title="关闭"  @click.prevent="footerOuterVisible = false"><i class="icon close large"></i></a>
+			<img src="/images/qq-group-qrcode.png" class="" alt=""/>
+		</div>
+	</div>
+    <div id="footer" class="ui menu inverted light-blue borderless small">
+        <a  href="/settings/update" class="item" title="点击进入检查版本更新页面">{{teaName}} v{{teaVersion}}</a>
+        <!--<a href="http://teaos.cn" target="_blank" class="item">官网</a>-->
+        <a href="https://github.com/TeaWeb/build" target="_blank" class="item">GitHub</a>
+		<a href="http://teaos.cn" target="_blank" class="item">官网</a>
+        <a href="http://teaos.cn/doc" target="_blank" class="item">文档</a>
+        <a href="https://github.com/TeaWeb/build/issues" target="_blank" class="item">提Bug</a>
+        <a class="item" @click.prevent="showQQGroupQrcode()">QQ讨论群：199435611 &nbsp;<i class="icon qrcode"></i> </a>
+        <a href="http://plus.teaos.cn" target="_blank" class="item right" title="TeaWeb Plus">TeaWeb+ - API网关和团队管理</a>
+    </div>
+</div>
+
+{$echo "footer"}
+
+</body>
+</html>

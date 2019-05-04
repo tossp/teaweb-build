@@ -1,0 +1,17 @@
+.menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.ui.divider {
+    margin-top: 0!important;
+}
+
+/** 排序 **/
+.sortable-ghost {
+    background: #ddd!important;
+}
+
+.sortable-drag {
+    opacity: 0.1;
+}

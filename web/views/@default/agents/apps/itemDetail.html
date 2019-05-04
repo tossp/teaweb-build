@@ -1,0 +1,113 @@
+{$layout}
+{$template "/code_editor"}
+{$template "menu"}
+
+<div class="ui text menu small blue">
+    <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" class="item active">{{item.name}} &raquo; 详情</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" class="item">数值记录</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemCharts?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">图表<span>({{item.charts.length}})</span></a>
+</div>
+<div class="ui divider"></div>
+
+<h3>监控项 <a :href="'/agents/apps/updateItem?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from">修改</a></h3>
+
+<!-- 数据源CSS -->
+{$ if not ( isNil .sourcePresentation ) }
+<div v-html="sourcePresentation.css"></div>
+{$ end}
+
+<table class="ui table definition selectable">
+	<tr>
+		<td>是否启用</td>
+		<td>
+			<span class="ui label small green" v-if="item.on">启用中</span>
+			<span class="ui label small" v-if="!item.on">未启用</span>
+
+			&nbsp;
+			<a href="" style="font-size:12px" @click.prevent="putOn()" v-if="!item.on">快速启用</a>
+			<a href="" style="font-size:12px" @click.prevent="putOff()" v-if="item.on">快速关闭</a>
+		</td>
+	</tr>
+    <tr>
+        <td class="title">监控项名称</td>
+        <td>
+            {{item.name}}
+        </td>
+    </tr>
+	<tr>
+		<td>监控项ID</td>
+		<td>{{item.id}}
+			<p class="comment">可以在Agent主机上通过运行 <em>bin/teaweb-agent run {{item.id}}</em> 来测试这个监控项的数据源</p>
+		</td>
+	</tr>
+    <tr v-if="source != null">
+        <td>数据源</td>
+        <td>
+            {{sourceOptions.summary.name}} &nbsp; <a href="" style="font-size:12px" @click.prevent="execSource(item.id)" v-if="isWaiting && selectedSource != null">立即执行</a>
+			<p class="comment" style="margin-bottom:0.3em">{{sourceOptions.summary.description}}<span v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0">，<a href="" @click.prevent="showSourceVariables()">提供的数据变量<i class="icon angle" :class="{down:!sourceVariablesVisible,up:sourceVariablesVisible}"></i></a>。</span></p>
+
+			<!-- 变量 -->
+			<div style="line-height:1.8" v-if="sourceVariablesVisible && selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0" class="comment">
+				<div class="ui divider" style="margin-bottom:0.4em!important;"></div>
+				<span>该数据源提供的数据变量：</span>
+				<span v-for="(var1, index) in selectedSource.variables"><var class="ui label tiny" v-text="'${' + var1.code + '}'" style="font-style: normal;"></var> - {{var1.description}} <var style="font-style: normal;" v-if="index < selectedSource.variables.length - 1">；</var><var style="font-style: normal;" v-if="index == selectedSource.variables.length - 1">。</var> </span>
+			</div>
+        </td>
+    </tr>
+
+	<!-- 数据源 -->
+	<tbody v-if="source != null">
+		{$ if not ( isNil .sourcePresentation ) }
+			{$.sourcePresentation.HTML}
+		{$end}
+	</tbody>
+
+    <!-- 通用数据源设置 -->
+    <tr>
+        <td>数据格式</td>
+        <td>
+            <span v-if="sourceOptions != null && sourceOptions.dataFormat != null">{{sourceOptions.dataFormat.name}}</span>
+            <span v-if="sourceOptions == null || sourceOptions.dataFormat == null" class="disabled">没有设置</span>
+        </td>
+    </tr>
+    <tr>
+        <td>刷新间隔</td>
+        <td>
+            {{item.interval}}
+        </td>
+    </tr>
+    <tbody>
+        <tr>
+            <td>阈值设置<em>（通知触发条件）</em></td>
+            <td>
+                <span v-if="item.thresholds == null || item.thresholds.length == 0" class="disabled">还没有设置</span>
+                <div v-if="item.thresholds != null && item.thresholds.length > 0" v-for="threshold in item.thresholds" style="margin-top:0.2em;margin-bottom:0.4em">
+                    <span class="ui label small">{{threshold.param}} <strong style="font-style:italic">{{threshold.operator}}</strong> {{threshold.value}}
+                        <em v-if="threshold.noticeMessage.length > 0">[{{threshold.levelName}}:{{threshold.noticeMessage}}]</em>
+                        <em v-if="threshold.noticeMessage.length == 0">[{{threshold.levelName}}]</em> <em v-if="threshold.actions != null && threshold.actions.length > 0">[{{threshold.actions.length}}动作]</em>
+						<em v-if="threshold.maxFails > 1">[连续{{threshold.maxFails}}次]</em>
+                    </span>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+	<tr>
+		<td>成功判定</td>
+		<td>
+			{{item.recoverSuccesses}}次
+			<p class="comment">如果因为触发了某个阈值而发生了错误，则在<span style="text-decoration: underline">{{item.recoverSuccesses}}</span>次成功获取数据后，发送成功级别的通知。</p>
+		</td>
+	</tr>
+	<tr>
+		<td>外部监控API</td>
+		<td>
+			<a href="" @click.prevent="showAgentItemAPI()">点此查看 <i class="icon angle" :class="{down:!agentItemAPIVisible, up:agentItemAPIVisible}"></i> </a>
+			<div v-if="agentItemAPIVisible" style="margin-top:0.4em">
+				<em style="font-style:italic">/api/monitor/agent/<strong>{{agent.id}}</strong>/item/<strong>{{item.id}}</strong>?TeaKey=<strong>当前登录用户密钥</strong></em>
+			<p class="comment">可以通过此API获取该监控项的最新的一条数值记录，<a href="http://teaos.cn/doc/advanced/APIMonitorAgentItem.md" target="_blank">点这里查看帮助</a>。</p>
+			</div>
+		</td>
+	</tr>
+</table>

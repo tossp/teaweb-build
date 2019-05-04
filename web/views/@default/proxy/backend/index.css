@@ -1,0 +1,29 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.main .menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+div.margin {
+    margin-top: 2em!important;
+}
+
+.table .label.tiny {
+    display: inline-block;
+    padding: 4px;
+    margin-top: 0.6em;
+    font-size: 0.6em;
+}
+
+.table .progress .bar {
+    min-width: 0;
+}
+
+table td a.small {
+    display: inline-block;
+    margin-top: 0.4em;
+    font-size: 0.9em;
+}

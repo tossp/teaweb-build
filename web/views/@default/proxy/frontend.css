@@ -1,0 +1,24 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.main .menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+table th em {
+    font-style: normal;
+    font-weight: normal;
+}
+
+/** codemirror **/
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto!important;
+}
+
+.CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+}

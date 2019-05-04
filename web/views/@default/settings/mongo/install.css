@@ -1,0 +1,24 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.text.menu {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.divider {
+    margin-top: 0!important;
+}
+
+.divider:not(.margin) {
+    margin-bottom: 0!important;
+}
+
+ .progress .bar {
+     min-width: 0!important;
+}
+
+ .table td {
+     font-style: normal!important;
+ }

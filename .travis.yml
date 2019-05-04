@@ -1,0 +1,81 @@
+sudo: false
+language: go
+go_import_path: github.com/TeaWeb/code/teaweb
+env:
+  - GO111MODULE=on
+go: 1.12.x
+os: linux
+install:
+  - go mod download
+script:
+  - go generate -x ./... && git diff --exit-code; code=$?; git checkout -- .; (exit $code) # Check that go generate ./... produces a zero diff; clean up any changes afterwards.
+  #  - go vet ./...
+  #  - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+  #  - go test -v -tags=integration -run=^$ ./test/integration # Check that integration test builds successfully, but don't run any of the tests (they hit live GitHub API).
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o core -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go ; fi
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+before_deploy:
+  - mkdir -p releases/{bin,plugins}
+  - cp -R ./{configs,scripts,web,www,logs,upgrade.sh} releases/
+  - cp configs/admin.sample.conf releases/configs/admin.conf
+  - cp configs/server.sample.conf releases/configs/server.conf
+  - cp configs/mongo.sample.conf releases/configs/mongo.conf
+  - cp configs/server.sample.www.proxy.conf releases/configs/server.www.proxy.conf
+  - cp -R configs/widgets releases/web/libs/
+  - curl -O http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
+  - gunzip GeoLite2-City.mmdb.gz
+  - mv GeoLite2-City.mmdb releases/web/resources/GeoLite2-City/
+  - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
+  - GOOS=windows GOARCH=amd64 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
+  - zip -9qr teaweb-windows-amd64.zip releases/
+  - GOOS=windows GOARCH=386 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
+  - GOOS=windows GOARCH=386 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
+  - zip -9qr teaweb-windows-386.zip releases/
+  - rm releases/bin/teaweb.exe
+  - rm releases/plugins/agent.tea.exe
+  - GOOS=darwin GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
+  - GOOS=darwin GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
+  - zip -9qr teaweb-darwin-amd64.zip releases/
+  - GOOS=darwin GOARCH=386 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
+  - GOOS=darwin GOARCH=386 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
+  - zip -9qr teaweb-darwin-386.zip releases/
+  - GOOS=linux GOARCH=arm go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=arm go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
+  - zip -9qr teaweb-linux-arm.zip releases/
+  - GOOS=linux GOARCH=arm64 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=arm64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
+  - zip -9qr teaweb-linux-arm64.zip releases/
+  - GOOS=linux GOARCH=386 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=386 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
+  - zip -9qr teaweb-linux-386.zip releases/
+  - GOOS=linux GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
+  - zip -9r teaweb-linux-amd64.zip releases/
+  - cp Dockerfile releases/
+  - docker build -t tossp/teaweb releases/
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push tossp/teaweb
+deploy:
+  provider: releases
+  api_key: $CI_USER_TOKEN
+  skip_cleanup: true
+  file:
+    - teaweb-linux-arm64.zip
+    - teaweb-linux-arm.zip
+    - teaweb-linux-386.zip
+    - teaweb-linux-amd64.zip
+    - teaweb-darwin-amd64.zip
+    - teaweb-darwin-386.zip
+    - teaweb-windows-amd64.zip
+    - teaweb-windows-386.zip
+  on:
+    tags: true
+    all_branches: true
+    condition: $TRAVIS_OS_NAME=linux && $TRAVIS_GO_VERSION =~ ^1\.12
+services:
+  - docker
+  - mongodb
+  - mysql

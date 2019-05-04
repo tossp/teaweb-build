@@ -1,0 +1,71 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<!-- 拖动排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
+<div>
+    {$template "/proxy/menu"}
+
+    <div class="ui text menu blue small">
+        <a :href="'/proxy/locations?serverId=' + server.id" class="ui item active">所有路径规则</a>
+        <span class="item">|</span>
+        <a :href="'/proxy/locations/add?serverId=' + server.id"  class="u item">添加新路径规则</a>
+    </div>
+
+    <p class="comment" v-if="locations.length == 0">暂时还没有路径规则配置。</p>
+
+    <table class="ui table selectable" v-if="locations.length > 0" id="locations-table">
+        <thead>
+            <tr>
+				<th style="width:3em"></th>
+                <th>匹配规则</th>
+                <th class="two op">操作</th>
+            </tr>
+        </thead>
+        <tbody v-for="(location, index) in locations">
+            <tr>
+				<td style="text-align: center;"><i class="icon bars handle grey"></i> </td>
+                <td>
+                    <span style="line-height:2">{{location.pattern}}</span><br/>
+					<p style="font-size:0.9em;color:grey" v-if="location.name.length > 0">{{location.name}}</p>
+                    <span class="ui label tiny olive">{{location.patternTypeName}}</span>
+                    <span class="ui label tiny" v-if="!location.on">未启用</span>
+                    <span class="ui label tiny" v-if="location.isCaseInsensitive">不区分大小写</span>
+                    <span class="ui label tiny" v-if="location.isReverse">反向匹配</span>
+                    <span class="ui label tiny" v-if="location.root.length > 0">root</span>
+					<span class="ui label tiny" v-if="location.gzipLevel > 0">gzip:{{location.gzipLevel}}</span>
+                    <span class="ui label tiny" v-if="location.cachePolicy != null">cache</span>
+					<span class="ui label tiny" v-if="location.hasWAF">waf</span>
+                    <span class="ui label tiny" v-if="location.headers.length > 0">headers</span>
+                    <span class="ui label tiny" v-if="location.websocket">websocket</span>
+					<span class="ui label tiny" v-if="location.backends.length > 0">{{location.backends.length}} backends</span>
+
+                    <p v-for="fastcgi in location.fastcgi">
+                        <span class="ui label tiny">fastcgi {{fastcgi.pass}}</span>
+                    </p>
+                    <p v-for="rewrite in location.rewrite">
+                        <span class="ui label tiny">rewrite {{rewrite.pattern}} -&gt; {{rewrite.replace}}</span>
+                    </p>
+                </td>
+                <td>
+                    <a :href="$url('/proxy/locations/detail', { 'serverId':server.id,'locationId':location.id })">详情</a> &nbsp;
+                    <a href="" v-on:click.prevent="deleteLocation(location.id)">删除</a> &nbsp;
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="comment" v-if="locations.length > 1">所有规则匹配顺序为从上到下，可以拖动左侧的<i class="icon bars"></i>排序。</p>
+</div>

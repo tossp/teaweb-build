@@ -1,0 +1,93 @@
+{$layout}
+{$template "menu"}
+
+<h3>设置<a :href="'/agents/settings/update?agentId=' + agent.id" v-if="!isLocal">修改</a></h3>
+
+<div>
+    <table class="ui table definition selectable">
+        <tr>
+            <td>是否启用</td>
+            <td>
+                <span class="ui label green small" v-if="agent.on">启用中</span>
+                <span class="ui label small" v-if="!agent.on">未启用</span>
+
+				&nbsp;
+				<a href="" style="font-size:12px" @click.prevent="putOn()" v-if="!agent.on && !isLocal">快速启用</a>
+				<a href="" style="font-size:12px" @click.prevent="putOff()" v-if="agent.on && !isLocal">快速关闭</a>
+
+			</td>
+        </tr>
+		<tr>
+			<td>状态</td>
+			<td>
+				<span v-if="agentIsWaiting" class="ui label green small">已连接<var v-if="agentVersion.length > 0"> v{{agentVersion}}</var> @{{agentIP}}</span>
+				<span v-if="!agentIsWaiting" class="ui label small">未连接</span>
+			</td>
+		</tr>
+		<tr>
+			<td>连接速度</td>
+			<td>
+				<div class="ui progress tiny" :class="{green:speedPercent>=80, yellow:speedPercent<80&&speedPercent>=50, red:speedPercent>0&&speedPercent<50}" v-if="agentIsWaiting">
+					<div class="ui bar" :style="{width:speedPercent+'%'}"></div>
+					<span class="label">{{agentSpeed}}ms</span>
+				</div>
+
+				<div class="ui progress tiny" v-if="!agentIsWaiting">
+					<div class="ui bar"></div>
+					<span class="label disabled">未连接</span>
+				</div>
+			</td>
+		</tr>
+        <tr>
+            <td class="title">主机名</td>
+            <td>
+                {{agent.name}}
+            </td>
+        </tr>
+        <tr>
+            <td>主机地址</td>
+            <td>
+				<span v-if="isLocal">本地</span>
+                <span v-if="!isLocal">{{agent.host}}</span>
+            </td>
+        </tr>
+		<tr>
+			<td>主机ID</td>
+			<td>{{agent.id}}</td>
+		</tr>
+        <tr>
+            <td>密钥</td>
+            <td>{{agent.key}}</td>
+        </tr>
+		<tr>
+			<td>分组</td>
+			<td>
+				<span v-if="groupNames.length == 0" class="disabled">默认分组</span>
+				<span v-for="groupName in groupNames">{{groupName}}</span>
+			</td>
+		</tr>
+        <tr>
+            <td>允许访问的IP</td>
+            <td>
+                <span v-if="agent.allowAll">允许所有的IP</span>
+                <p v-if="!agent.allowAll">
+                    <span v-for="ip in agent.allow" class="ui label small">{{ip}}</span>
+                </p>
+            </td>
+        </tr>
+		<tr>
+			<td>自动检测离线</td>
+			<td>
+				<span v-if="agent.checkDisconnections" class="green">检测</span>
+				<span v-if="!agent.checkDisconnections">不检测</span>
+			</td>
+		</tr>
+		<tr>
+			<td>自动升级</td>
+			<td>
+				<span v-if="agent.autoUpdates" class="green">自动升级</span>
+				<span v-if="!agent.autoUpdates">不自动升级</span>
+			</td>
+		</tr>
+    </table>
+</div>

@@ -1,0 +1,84 @@
+{$layout}
+
+<div v-if="error.length > 0" class="ui message warning">
+    {{error}}
+</div>
+
+<div v-if="serverChanged" class="ui message warning">
+    配置已改变，需要你在命令行下重启TeaWeb服务后生效。
+</div>
+
+<p class="comment">这里设置TeaWeb管理界面的访问地址。</p>
+
+<div v-if="error.length == 0">
+    <h3>HTTP <a href="/settings/server/http" v-if="!teaDemoEnabled">修改</a><a v-if="teaDemoEnabled">[演示版无法修改]</a></h3>
+
+    <table class="ui table definition selectable">
+        <tr>
+            <td>状态</td>
+            <td>
+                <span class="ui label small green" v-if="server.http.on">启用中</span>
+                <span class="ui label small" v-if="!server.http.on">未开启</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="title">绑定地址</td>
+            <td>{{server.http.listen.join(",")}}
+                <p class="ui comment">如果地址中的IP是0.0.0.0，表示服务器的所有IP都可以用来使用访问此服务。</p>
+            </td>
+        </tr>
+    </table>
+
+    <div class="ui block"></div>
+
+    <h3>HTTPS <a href="/settings/server/https" v-if="!teaDemoEnabled">修改</a><a v-if="teaDemoEnabled">[演示版无法修改]</a></h3>
+    <table class="ui table definition selectable">
+        <tr>
+            <td>状态</td>
+            <td>
+                <span class="ui label small green" v-if="server.https.on">启用中</span>
+                <span class="ui label small" v-if="!server.https.on">未开启</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="title">绑定地址</td>
+            <td>{{server.https.listen.join(",")}}
+                <p class="ui comment">如果地址中的IP是0.0.0.0，表示服务器的所有IP都可以用来使用访问此服务。</p>
+            </td>
+        </tr>
+        <tr>
+            <td>证书文件<span class="small">（Cert）</span></td>
+            <td>
+                <span class="enabled" v-if="server.https.cert.length > 0">{{server.https.cert}}</span>
+                <span class="disabled" v-if="server.https.cert.length == 0">还没有设置证书</span>
+            </td>
+        </tr>
+        <tr>
+            <td>私钥文件<span class="small">（Key）</span></td>
+            <td>
+                <span class="enabled" v-if="server.https.key.length > 0">{{server.https.key}}</span>
+                <span class="disabled" v-if="server.https.key.length == 0">还没有设置私钥</span>
+            </td>
+        </tr>
+    </table>
+
+    <h3>安全设置 <a href="/settings/server/security" v-if="!teaDemoEnabled">修改</a><a v-if="teaDemoEnabled">[演示版无法修改]</a></h3>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">允许访问的IP</td>
+			<td>
+				<span v-if="security.allow.$contains('all')">允许所有的IP</span>
+				<span v-if="security.allow.length == 0" class="grey">暂时还没有允许访问的IP</span>
+				<span v-if="!security.allow.$contains('all') && security.allow.length > 0">{{security.allow.join(", ")}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td>禁止访问的IP</td>
+			<td>
+				<span v-if="security.deny.$contains('all')">禁止所有的IP</span>
+				<span v-if="security.deny.length == 0" class="grey">暂时还没有禁止访问的IP</span>
+				<span v-if="!security.deny.$contains('all') && security.deny.length > 0">{{security.deny.join(", ")}}</span>
+			</td>
+		</tr>
+	</table>
+</div>

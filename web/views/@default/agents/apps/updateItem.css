@@ -1,0 +1,60 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.text.menu {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.divider {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.without-definition thead tr:first-child>th:first-child {
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
+    color: rgba(0,0,0,.87)!important;
+    font-weight: bold!important;
+    background: #f9fafb!important;
+}
+
+.table .label.tiny {
+    padding: 2px;
+}
+
+.threshold-box .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+.threshold-box .label em {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.threshold-box .label var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+.table var {
+    font-style: normal;
+}
+
+/** codemirror **/
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto!important;
+}
+
+.CodeMirror-vscrollbar {
+    width: 6px;
+    border-radius: 3px!important;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+}

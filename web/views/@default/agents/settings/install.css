@@ -1,0 +1,20 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.ui.divider {
+    margin-top: 0;
+}
+
+pre {
+    margin-top: 0.5em;
+    padding: 0.3em 0.5em;
+    background: #eee;
+    line-height: 1.8;
+    font-size: 0.85em;
+}

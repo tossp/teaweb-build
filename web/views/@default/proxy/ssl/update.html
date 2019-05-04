@@ -1,0 +1,75 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div>
+    {$template "/proxy/menu"}
+
+    <!-- HTTPS 设置 -->
+    <form class="ui form" data-tea-action="/proxy/ssl/update" data-tea-success="submitSuccess">
+        <input type="hidden" name="serverId" :value="server.id"/>
+        <table class="ui table definition selectable">
+            <tr>
+                <td class="title">是否开启HTTPS</td>
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="httpsOn" v-model="httpsOn"/>
+                        <label></label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>证书文件<em>(Certificate)</em></td>
+                <td>
+                    <span v-if="server.ssl != null && server.ssl.certificate.length > 0">{{server.ssl.certificate}}</span>
+
+                    <input type="file" name="certFile" accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert" style="margin-top:0.8em"/>
+					<p class="comment">内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
+                </td>
+            </tr>
+            <tr>
+                <td>密钥文件<em>(Key)</em></td>
+                <td>
+                    <span v-if="server.ssl != null && server.ssl.certificateKey.length > 0">{{server.ssl.certificateKey}}</span>
+                    <input type="file" name="keyFile" accept="application/pkcs8" style="margin-top:0.8em"/>
+					<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息</p>
+                </td>
+            </tr>
+            <tr>
+                <td>绑定地址<em>(listen)</em></td>
+                <td colspan="2">
+                    <span class="ui label small" v-for="(listen, arrayIndex) in server.ssl.listen" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
+                        <input type="hidden" name="listen" :value="listen"/> &nbsp;
+						<a href="" @click.prevent="editListen(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
+                        <a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+                    </span>
+                    <div class="ui fields inline" v-if="listenAdding" style="margin-top:0.8em">
+                        <div class="ui field">
+                            <input type="text" name="addingListenName" style="width:18em" maxlength="30" placeholder="绑定的网络地址，比如 0.0.0.0:443" @keyup.enter="confirmAddListen()" @keypress.enter.prevent="1" v-model="addingListenName" />
+                        </div>
+                        <div class="ui field">
+                            <button class="ui button" type="button" @click="confirmAddListen()">确定</button>
+                            &nbsp; <a href="" @click.prevent="cancelListenAdding()">取消</a>
+                        </div>
+                    </div>
+                    <div class="ui field" style="margin-top: 1em">
+                        <button class="ui button" type="button" @click="addListen()">+</button>
+                    </div>
+                    <p class="comment" style="padding-bottom:0;margin-bottom:0.4em">绑定的服务器端的网络地址，多个地址之间使用空格隔开，比如"0.0.0.0:443 192.168.1.100:443"。</p>
+                    <p class="comment" style="padding-top:0;margin-top:0">要想通过服务器的所有IP地址都能访问到服务，可以将IP地址写成"0.0.0.0:端口"。</p>
+                </td>
+            </tr>
+        </table>
+
+        <button class="ui button primary" type="submit">保存</button>
+    </form>
+</div>

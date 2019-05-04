@@ -1,0 +1,53 @@
+.sub-menu {
+    display: none;
+}
+
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.text.menu {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.text.menu span {
+    font-size: 0.9em;
+}
+
+.divider {
+    margin-top: 0!important;
+}
+
+.divider:not(.margin) {
+    margin-bottom: 0!important;
+}
+
+form textarea {
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
+.webhook-headers-box {
+    margin-bottom: 0.6em;
+}
+
+.webhook-headers-box .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+/** codemirror **/
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto!important;
+}
+
+.CodeMirror-vscrollbar {
+    width: 6px;
+    border-radius: 3px!important;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+}

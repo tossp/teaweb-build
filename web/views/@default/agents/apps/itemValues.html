@@ -1,0 +1,66 @@
+{$layout}
+
+{$template "menu"}
+
+<!-- 子菜单 -->
+<div class="ui text menu small blue">
+    <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">{{item.name}} &raquo; 详情</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item active">数值记录</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemCharts?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">图表<span>({{item.charts.length}})</span></a>
+</div>
+<div class="ui divider"></div>
+
+<div class="ui text menu small blue">
+	<span class="item" style="padding-right:0">级别：</span>
+	<a style="padding-left:0" :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item" :class="{active:selectedLevel == 0}">所有级别</a>
+	<a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&level=' + level.code" class="item" v-for="level in levels" :class="{active:selectedLevel==level.code}">{{level.name}}</a>
+
+	<span class="item" v-if="values.length > 0">|</span>
+	<a href="" class="item" v-if="values.length > 0" @click.prevent="clearValues()">清空数值记录</a>
+</div>
+<div class="ui divider"></div>
+
+<p class="ui message warning" v-if="mongoFailed">需要<a href="/settings/mongo">设置MongoDB</a>才能记录执行日志。</p>
+
+<p class="comment" v-if="isLoaded && values.length == 0">暂时还没有数据。</p>
+
+<table class="ui table selectable values-table small" v-for="(value, valueIndex) in values">
+    <thead>
+        <tr>
+            <th :style="{'background':(value.noticeLevel == null) ? '' : value.noticeLevel.bgcolor, 'color':(value.noticeLevel == null) ? '' : value.noticeLevel.color}"><span v-if="value.noticeLevel != null">[{{value.noticeLevel.name}}] - </span>{{value.datetime}}</th>
+        </tr>
+    </thead>
+    <tr>
+        <td :style="{'background':(value.noticeLevel == null) ? '' : value.noticeLevel.bgcolor, 'color':(value.noticeLevel == null) ? '' : value.noticeLevel.color}">
+            <div v-if="value.vars.length > 0">
+				<div class="ui menu tabular small attached">
+					<a href="" class="item" :class="{active:value.tab == null || value.tab == 'vars'}" @click.prevent="showValueTab(valueIndex, 'vars')">变量说明</a>
+					<a href="" class="item" :class="{active:value.tab == 'raw'}" @click.prevent="showValueTab(valueIndex, 'raw')">原始数据</a>
+				</div>
+				<div class="ui segment attached" v-if="value.tab == null || value.tab == 'vars'">
+
+					<table class="ui table definition selectable">
+						<tr v-for="v in value.vars">
+							<td class="title">{{v.description}}</td>
+							<td>
+								<pre>{{v.value}}</pre>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="ui segment attached" v-if="value.tab == 'raw'">
+					<pre>{{value.value}}</pre>
+				</div>
+			</div>
+			<pre v-if="value.vars.length == 0">{{value.value}}</pre>
+        </td>
+    </tr>
+	<tr v-if="value.threshold != null && value.threshold.length > 0" :style="{'background':(value.noticeLevel == null) ? '' : value.noticeLevel.bgcolor, 'color':(value.noticeLevel == null) ? '' : value.noticeLevel.color}">
+		<td>[阈值] {{value.threshold}}</td>
+	</tr>
+	<tr v-if="value.error.length > 0">
+		<td class="error">错误：{{value.error}}</td>
+	</tr>
+</table>

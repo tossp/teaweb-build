@@ -1,0 +1,47 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.main .menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.main .menu.text span {
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+
+.divider {
+    margin-bottom: 0!important;
+}
+
+table .label.tiny {
+    padding: 3px;
+}
+
+table td p {
+    padding: 0;
+    margin: 0.2em 0;
+}
+
+/**table tr:hover a {
+    display:inline;
+}
+
+table tr a {
+    display: none;
+}**/
+
+/** 排序 **/
+.sortable-ghost {
+    background: #ddd!important;
+}
+
+.sortable-drag {
+    opacity: 1.0;
+}
+
+.icon.handle {
+    cursor: pointer;
+}

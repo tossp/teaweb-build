@@ -1,0 +1,21 @@
+.rules-box {
+    margin-bottom: 1em;
+}
+
+.rules-box .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+/** 排序 **/
+.sortable-ghost {
+    background: #ddd!important;
+}
+
+.sortable-drag {
+    opacity: 1.0;
+}
+
+.icon.handle {
+    cursor: pointer;
+}

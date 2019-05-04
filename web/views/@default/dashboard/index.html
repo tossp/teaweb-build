@@ -1,0 +1,44 @@
+{$layout}
+
+<p class="comment" v-if="mongoFailed">需要设置MongoDB才能展示本页面，<a href="/settings/mongo">去设置</a>。</p>
+<p class="comment" v-if="isLoaded && charts.length == 0 && !mongoFailed">请等待数据初始化完成...</p>
+
+<!-- 实时 -->
+<div style="width:100%" v-show="!mongoFailed">
+	<div class="left-box" :style="{'visibility':(!isLoaded || mongoFailed || !logsVisible) ? 'hidden' : 'visible'}">
+		<table class="ui table small">
+			<thead>
+				<tr>
+					<th>实时请求数</th>
+				</tr>
+			</thead>
+			<tr>
+				<td>
+					<div id="qps-chart-box"></div>
+				</td>
+			</tr>
+		</table>
+
+		<table class="ui table small">
+			<thead>
+				<tr>
+					<th>实时请求日志</th>
+				</tr>
+			</thead>
+			<tr v-if="logs.length == 0">
+				<td>
+					<span class="disabled">暂时还没有日志。</span>
+				</td>
+			</tr>
+			<tr v-for="log in logs">
+				<td>
+					<a :href="'/proxy/log?serverId=' + log.serverId" title="点击跳转到相应的代理服务"><span class="grey">{{log.remoteAddr}} - [{{log.timeLocal}}]</span> <span style="color:rgba(0,0,0,.87)">"{{log.requestMethod}} {{log.scheme}}://{{log.host}}{{log.requestURI}} {{log.proto}}" -</span> <span class="grey">耗时:{{log.requestTime}}ms</span></a>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="right-box">
+		{$template "/chart_render"}
+	</div>
+</div>

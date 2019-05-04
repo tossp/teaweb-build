@@ -1,0 +1,32 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.ui.divider {
+    margin-top: 0;
+}
+
+.table .label var {
+    font-style: normal;
+}
+
+.progress {
+    width: 10em;
+}
+
+.progress .bar {
+    min-width: 0!important;
+    height: 0.25em!important;
+    border-radius: 0.14em!important;
+}
+
+.ui.progress>.label{
+    text-align: left!important;
+    font-weight: normal;
+    line-height: 2em;
+}

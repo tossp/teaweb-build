@@ -1,0 +1,82 @@
+{$layout}
+
+<div class="ui menu text basic blue">
+	<a href="/settings/mongo" class="item active">连接设置</a>
+	<a href="/settings/mongo/data" class="item">数据清理</a>
+</div>
+<div class="ui divider"></div>
+
+<div>
+    <h3>MongoDB连接设置 <a href="https://docs.mongodb.com/manual/reference/connection-string/" target="_blank">MongoDB官方说明文档</a> </h3>
+
+    <form class="ui form" data-tea-action=".update">
+        <table class="ui table definition selectable">
+            <tr>
+                <td style="width:11em">主机地址<em>（host）</em></td>
+                <td>
+                    <input type="text" name="host" v-model="config.host"/>
+                    <p class="comment">通常是一个IP，比如 192.168.1.100</p>
+                </td>
+            </tr>
+            <tr>
+                <td>端口<em>（port）</em></td>
+                <td>
+                    <input type="text" name="port" v-model="config.port"/>
+                </td>
+            </tr>
+            <tr>
+                <td>开启认证</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="" v-model="authUpdating" />
+						<label></label>
+					</div>
+					<p class="comment">
+						<a href="http://teaos.cn/doc/settings/MongoDB.md#%E8%AE%A4%E8%AF%81" target="_blank">MongoDB认证相关帮助 &raquo;</a>
+					</p>
+				</td>
+            </tr>
+			<tbody v-if="authUpdating">
+				<tr>
+					<td>用户名<em>（username）</em></td>
+					<td>
+						<input type="text" name="username" v-model="config.username" maxlength="128"/>
+					</td>
+				</tr>
+				<tr>
+					<td>密码<em>（password）</em></td>
+					<td>
+						<input type="password" name="password" v-model="config.password" maxlength="128"/>
+						<p class="comment">留空表示不修改</p>
+					</td>
+				</tr>
+				<tr>
+					<td>认证机制<em>（Auth Mechanism）</em></td>
+					<td>
+						<select class="ui dropdown" name="authMechanism" v-model="config.authMechanism" style="width:10em">
+
+							<option value="SCRAM-SHA-1">SCRAM-SHA-1</option>
+							<option value="SCRAM-SHA-256">SCRAM-SHA-256</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>认证附加参数<em>(Auth Mechanism Properties)</em></td>
+					<td>
+						<input type="text" name="authMechanismProperties" v-model="config.authMechanismProperties"/>
+						<p class="comment">通常为空即可。多个参数用英文逗号隔开，比如：CANONICALIZE_HOST_NAME:true,SERVICE_REALM:tea</p>
+					</td>
+				</tr>
+			</tbody>
+        </table>
+
+        <div class="ui segment red" v-if="testingError != null && testingError.length > 0">{{testingError}}</div>
+        <div class="ui segment green" v-if="testingSuccess != null && testingSuccess.length > 0">{{testingSuccess}}</div>
+
+        <button class="ui button primary" type="submit">保存</button> &nbsp; &nbsp;
+        <button class="ui button" type="button" v-on:click="testConnection()" v-if="!isTesting">测试连接</button>
+        <button class="ui button" type="button" v-if="isTesting">测试中...</button>
+    </form>
+
+
+</div>

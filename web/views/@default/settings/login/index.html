@@ -1,0 +1,22 @@
+{$layout}
+
+<h3>登录设置 <a href="/settings/login/update" v-if="!teaDemoEnabled">修改</a><a v-if="teaDemoEnabled">[演示版无法修改]</a></h3>
+
+<table class="ui table selectable definition">
+    <tr>
+        <td class="title">登录用户名</td>
+        <td>{{username}}</td>
+    </tr>
+    <tr>
+        <td>登录密码</td>
+        <td>{{passwordMask}}</td>
+    </tr>
+	<tr>
+		<td>密钥</td>
+		<td>
+			<a href="" v-if="key.length == 0" @click.prevent="generateKey()">还没有生成KEY，点此生成</a>
+			<span v-if="key.length > 0">{{key}}</span>
+			<p class="ui comment">用来访问TeaWeb提供的API</p>
+		</td>
+	</tr>
+</table>

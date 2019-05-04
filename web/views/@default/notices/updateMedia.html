@@ -1,0 +1,406 @@
+{$layout}
+{$template "/code_editor"}
+
+<div class="ui menu text blue">
+	<a href="/notices?read=0" class="item">未读通知<span> &nbsp;({{countUnread}})</span></a>
+	<a href="/notices?read=1" class="item">已读通知</a>
+	<a href="/notices/setting" class="item">级别</a>
+	<a href="/notices/medias" class="item active">媒介</a>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="ui menu text blue small">
+	<a :href="'/notices/mediaDetail?mediaId=' + media.id" class="item active">媒介详情</a>
+	<a :href="'/notices/testMedia?mediaId=' + media.id" class="item">测试当前媒介</a>
+</div>
+
+<div class="ui divider"></div>
+
+<form class="ui form" data-tea-action="$" style="margin-top:1em" data-tea-success="submitSuccess">
+	<input type="hidden" name="mediaId" :value="media.id"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">媒介名称</td>
+			<td>
+				<input type="text" name="name" v-model="media.name" @input="changeName(media.name)"/>
+				<p v-if="rateNoticeVisible" class="comment">友情提醒：请注意设置发送频率，防止服务超载</p>
+			</td>
+		</tr>
+		<tr>
+			<td>类型</td>
+			<td>
+				<select class="ui dropdown" name="type" style="width:10em" v-model="mediaType" @change="changeMediaType()">
+					<option v-for="type in mediaTypes" :value="type.code">{{type.name}}</option>
+				</select>
+				<p class="comment" v-html="typeDescription"></p>
+			</td>
+		</tr>
+		<tbody v-show="mediaType == 'email'">
+			<tr>
+				<td>SMTP *</td>
+				<td>
+					<input type="text" name="emailSmtp" v-model="media.options.smtp" maxlength="100" placeholder="类似于 smtp.xxx.com:465"/>
+					<p class="comment">只支持SSL（或TLS）连接，端口通常为：465或587。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>账号 *</td>
+				<td>
+					<input type="text" name="emailUsername" v-model="media.options.username" maxlength="100" placeholder="类似于 xxx@xxx.com" @input="changeEmailUsername"/>
+					<p class="comment">邮箱账号，比如 123456@qq.com<span v-html="emailUsernameHelp"></span>。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>密码 *</td>
+				<td>
+					<input type="text" name="emailPassword" v-model="media.options.password" maxlength="100"/>
+					<p class="comment">账号对应的密码或者授权码（比如QQ邮箱就需要授权码）。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>发送者Email</td>
+				<td>
+					<input type="text" name="emailFrom" v-model="media.options.from" maxlength="100" placeholder="类似于 xxx@xxx.com"/>
+					<p class="comment">默认和账号一致</p>
+				</td>
+			</tr>
+		</tbody>
+		<tbody v-show="mediaType == 'webhook'">
+		<tr>
+				<td>URL *</td>
+				<td>
+					<input type="text" name="webhookURL" v-model="media.options.url" maxlength="500" placeholder="http://..."/>
+					<p class="comment">可以在URL中使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>来代表接收人标识、标题和内容。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>请求方法 *</td>
+				<td>
+					<select name="webhookMethod" v-model="webhookMethod" class="ui dropdown" style="width:10em">
+						<option v-for="method in methods" :value="method">{{method}}</option>
+					</select>
+					<p class="comment" v-if="webhookMethod == 'POST'">将以POST方式发送<span class="ui label tiny">NoticeUser</span>、<span class="ui label tiny">NoticeSubject</span>和<span class="ui label tiny">NoticeBody</span>参数，分别代表接收人标识、标题和内容</p>
+				</td>
+			</tr>
+		<tr v-show="advancedOptionsVisible">
+			<td>自定义Header</td>
+			<td>
+				<div class="webhook-headers-box">
+						<span class="ui label tiny" v-for="(header,index) in webhookHeaders">{{header.name}}:{{header.value}}
+							<input type="hidden" name="webhookHeaderNames" :value="header.name"/>
+							<input type="hidden" name="webhookHeaderValues" :value="header.value"/>
+							<a href="" title="删除" @click.prevent="removeWebhookHeader(index)"><i class="icon remove"></i></a>
+						</span>
+				</div>
+				<button class="ui button tiny" type="button" @click.prevent="addWebhookHeader()" v-if="!webhookHeadersAdding">+</button>
+				<div v-if="webhookHeadersAdding">
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="webhookHeaderName" v-model="webhookHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmWebhookHeadersAdding" @keypress.enter.prevent="1"/>
+						</div>
+						<div class="ui field">:</div>
+						<div class="ui field">
+							<input type="text" placeholder="值" v-model="webhookHeadersAddingValue" size="50" maxlength="256" @keyup.enter="confirmWebhookHeadersAdding" @keypress.enter.prevent="1"/>
+						</div>
+					</div>
+					<button class="ui button tiny" type="button" @click.prevent="confirmWebhookHeadersAdding()">确认添加</button>
+					&nbsp;  <a href="" @click.prevent="cancelWebhookHeadersAdding()">取消</a>
+				</div>
+			</td>
+		</tr>
+		<tr v-show="webhookMethod == 'POST' && advancedOptionsVisible">
+			<td>自定义内容</td>
+			<td>
+				<div class="ui menu tabular small attached">
+					<a href="" class="item" :class="{active:webhookContentType == 'params'}" @click.prevent="selectWebhookContentType('params')">参数对</a>
+					<a href="" class="item" :class="{active:webhookContentType == 'body'}" @click.prevent="selectWebhookContentType('body')">文本内容</a>
+				</div>
+				<div class="ui segment attached" v-if="webhookContentType == 'params'">
+					<input type="hidden" name="webhookContentType" value="params"/>
+					<div class="webhook-headers-box">
+							<span class="ui label tiny" v-for="(param,index) in webhookParams">{{param.name}}:{{param.value}}
+								<input type="hidden" name="webhookParamNames" :value="param.name"/>
+								<input type="hidden" name="webhookParamValues" :value="param.value"/>
+								<a href="" title="删除" @click.prevent="removeWebhookParam(index)"><i class="icon remove"></i></a>
+							</span>
+					</div>
+					<button class="ui button tiny" type="button" @click.prevent="addWebhookParam()" v-if="!webhookParamsAdding">+</button>
+					<div v-if="webhookParamsAdding">
+						<input type="hidden" name="webhookContentType" value="params"/>
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="webhookParamName" v-model="webhookParamsAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmWebhookParamsAdding" @keypress.enter.prevent="1"/>
+							</div>
+							<div class="ui field">:</div>
+							<div class="ui field">
+								<textarea type="text" placeholder="值" v-model="webhookParamsAddingValue" cols="50" maxlength="1024" rows="2"></textarea>
+							</div>
+						</div>
+						<button class="ui button tiny" type="button" @click.prevent="confirmWebhookParamsAdding()">确认添加</button>
+						&nbsp;  <a href="" @click.prevent="cancelWebhookParamsAdding()">取消</a>
+					</div>
+				</div>
+				<div class="ui segment attached" v-if="webhookContentType == 'body'">
+					<input type="hidden" name="webhookContentType" value="body"/>
+					<textarea name="webhookBody" v-model="webhookBody" rows="5" placeholder="发送的内容"></textarea>
+					<p class="comment">
+						内容中可以使用三个变量：<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>参数，分别代表接收人标识、标题和内容
+					</p>
+				</div>
+			</td>
+		</tr>
+		</tbody>
+		<tbody v-show="mediaType == 'script'">
+		<tr>
+			<td>脚本 *</td>
+			<td>
+				<input type="hidden" name="scriptType" :value="scriptTab"/>
+				<input type="hidden" name="scriptLang" :value="scriptLang"/>
+				<div class="ui tabular menu attached small">
+					<a class="item" :class="{active:scriptTab == 'path'}" @click.prevent="selectScriptTab('path')">脚本文件</a>
+					<a class="item" :class="{active:scriptTab == 'code'}" @click.prevent="selectScriptTab('code')" v-if="!teaDemoEnabled">脚本代码</a>
+				</div>
+				<div class="ui bottom segment attached" v-show="scriptTab == 'path'">
+					<input type="text" name="scriptPath" v-model="media.options.path" maxlength="100"/>
+					<p class="comment">如果是Shell脚本，请不要忘记在头部添加 <em>#!脚本解释工具</em>，比如 <em>#!/bin/bash</em><br/>
+						执行此脚本时，在脚本中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>三个环境变量分别代表通知的接收人标识、标题和内容。
+					</p>
+				</div>
+				<div class="ui bottom segment attached" v-show="scriptTab == 'code'" style="padding-top:0">
+					<div class="ui menu text small">
+						<a class="item" v-for="lang in scriptLangs" :class="{active:lang.code == scriptLang}" @click.prevent="selectScriptLang(lang.code)">{{lang.name}}</a>
+					</div>
+					<textarea name="scriptCode" id="script-code-editor" rows="1"></textarea>
+					<p class="comment">如果是Shell脚本，请不要忘记在头部添加 <em>#!脚本解释工具</em>，比如 <em>#!/bin/bash</em><br/>
+						执行此脚本时，在脚本中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>三个环境变量分别代表通知的接收人标识、标题和内容。
+					</p>
+				</div>
+			</td>
+		</tr>
+		<tr v-show="advancedOptionsVisible">
+			<td>当前工作目录<em>（CWD）</em></td>
+			<td>
+				<input type="text" name="scriptCwd" v-model="media.options.cwd" maxlength="100"/>
+			</td>
+		</tr>
+		<tr v-show="advancedOptionsVisible">
+			<td>环境变量<em>（ENV）</em></td>
+			<td>
+				<div class="ui field">
+                        <span class="ui label small" v-for="(var1, index) in env">
+                            <input type="hidden" name="scriptEnvNames" :value="var1.name"/>
+                            <input type="hidden" name="scriptEnvValues" :value="var1.value"/>
+                            <em>{{var1.name}}</em>: {{var1.value}}
+                            <a href="" @click.prevent="removeEnv(index)"><i class="icon remove"></i></a>
+                        </span>
+				</div>
+				<div v-if="envAdding" class="ui fields inline">
+					<div class="ui field">
+						<input type="text" name="envAddingName" v-model="envAddingName" placeholder="变量名" style="width:9em" @keyup.enter="confirmAddEnv" @keypress.enter.prevent="1"/>
+					</div>
+					<div class="ui field">
+						<input type="text" name="envAddingValue" v-model="envAddingValue" placeholder="变量值" style="width:15em" @keyup.enter="confirmAddEnv" @keypress.enter.prevent="1"/>
+					</div>
+					<div class="ui field">
+						<button class="ui button" type="button" @click="confirmAddEnv()">添加</button>
+					</div>
+					<div class="ui field">
+						<a href="" @click.prevent="cancelEnv()"><i class="icon remove"></i></a>
+					</div>
+				</div>
+				<div class="ui field">
+					<button class="ui button small" type="button" @click="addEnv()">+</button>
+				</div>
+			</td>
+		</tr>
+		</tbody>
+		<tbody v-show="mediaType == 'dingTalk'">
+		<tr>
+			<td>Hook地址 *</td>
+			<td>
+				<textarea name="dingTalkWebhookURL" maxlength="200" placeholder="https://oapi.dingtalk.com/robot/send?access_token=xxx" v-model="media.options.webhookURL" rows="2"></textarea>
+				<p class="comment">填入自定义群机器人的Hook地址，<a href="https://open-doc.dingtalk.com/microapp/serverapi2/qf2nxq" target="_blank">获取方法&raquo;</a></p>
+			</td>
+		</tr>
+		</tbody>
+		<tbody v-show="mediaType == 'qyWeixin'">
+		<tr>
+			<td>企业ID *</td>
+			<td>
+				<input type="text" name="qyWeixinCorporateId" maxlength="100" v-model="media.options.corporateId" />
+				<p class="comment"><a href="http://teaos.cn/doc/notices/QyWeixin.md#%E4%BC%81%E4%B8%9Aid" target="_blank">如何查看企业ID？</a></p>
+			</td>
+		</tr>
+		<tr>
+			<td>应用AgentId *</td>
+			<td>
+				<input type="text" name="qyWeixinAgentId" maxlength="100" v-model="media.options.agentId"/>
+				<p class="comment"><a href="http://teaos.cn/doc/notices/QyWeixin.md#agentid" target="_blank">如何查看应用的AgentId？</a> </p>
+			</td>
+		</tr>
+		<tr>
+			<td>应用Secret *</td>
+			<td>
+				<input type="text" name="qyWeixinAppSecret" maxlength="100" v-model="media.options.appSecret"/>
+				<p class="comment"><a href="http://teaos.cn/doc/notices/QyWeixin.md#appsecret" target="_blank">如何查看应用的Secret？</a> </p>
+			</td>
+		</tr>
+		</tbody>
+
+		<!-- 阿里云短信 -->
+		<tbody v-show="mediaType == 'aliyunSms'">
+			<tr>
+				<td>签名名称 *</td>
+				<td>
+					<input type="text" name="aliyunSmsSign" maxlength="100" v-model="media.options.sign"/>
+					<p class="comment">已经审核通过的短信签名名称</p>
+				</td>
+			</tr>
+			<tr>
+				<td>模板CODE *</td>
+				<td>
+					<input type="text" name="aliyunSmsTemplateCode" maxlength="100" v-model="media.options.templateCode" placeholder="类似于SMS_12345"/>
+					<p class="comment">已经审核通过的模板CODE</p>
+				</td>
+			</tr>
+			<tr>
+				<td>模板变量 *</td>
+				<td>
+					<div class="ui field">
+							<span class="ui label small" v-for="(var1, index) in aliyunSmsTemplateVars">
+								<input type="hidden" name="aliyunSmsTemplateVarNames" :value="var1.name"/>
+								<input type="hidden" name="aliyunSmsTemplateVarValues" :value="var1.value"/>
+								<em>{{var1.name}}</em>: {{var1.value}}
+								<a href="" @click.prevent="removeAliyunSmsTemplateVar(index)"><i class="icon remove"></i></a>
+							</span>
+					</div>
+					<div v-if="aliyunSmsTemplateVarAdding" class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="aliyunSmsTemplateVarAddingName" v-model="aliyunSmsTemplateVarAddingName" placeholder="变量名" style="width:9em" @keyup.enter="confirmAddAliyunSmsTemplateVar" @keypress.enter.prevent="1"/>
+						</div>
+						<div class="ui field">
+							<input type="text" name="aliyunSmsTemplateVarAddingValue" v-model="aliyunSmsTemplateVarAddingValue" placeholder="变量值" style="width:15em" @keyup.enter="confirmAddAliyunSmsTemplateVar" @keypress.enter.prevent="1"/>
+						</div>
+						<div class="ui field">
+							<button class="ui button" type="button" @click="confirmAddAliyunSmsTemplateVar()">添加</button>
+						</div>
+						<div class="ui field">
+							<a href="" @click.prevent="cancelAliyunSmsTemplateVar()"><i class="icon remove"></i></a>
+						</div>
+					</div>
+					<div class="ui field">
+						<button class="ui button small" type="button" @click="addAliyunSmsTemplateVar()">+</button>
+					</div>
+					<p class="comment">模板中使用的变量，在变量中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>来代表接收人标识、标题和内容。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>AccessKey ID *</td>
+				<td>
+					<input type="text" name="aliyunSmsAccessKeyId" maxlength="100" v-model="media.options.accessKeyId"/>
+					<p class="comment">在阿里云控制台中的访问控制中某个用户的AccessKey ID</p>
+				</td>
+			</tr>
+			<tr>
+				<td>AccessKey Secret *</td>
+				<td>
+					<input type="text" name="aliyunSmsAccessKeySecret" maxlength="100" v-model="media.options.accessKeySecret"/>
+					<p class="comment">在阿里云控制台中的访问控制中某个用户的AccessKey Secret，和上面的AccessKey ID匹配</p>
+				</td>
+			</tr>
+		</tbody>
+
+		<!-- TeaOS云短信 -->
+		<tbody v-show="mediaType == 'teaSms'">
+			<tr>
+				<td>AccessId *</td>
+				<td>
+					<input type="text" name="teaSmsAccessId" maxlength="100" v-model="media.options.accessId"/>
+					<p class="comment"><a href="http://cloud.teaos.cn/apps" target="_blank">在TeaOS云App</a>中获取</p>
+				</td>
+			</tr>
+			<tr>
+				<td>AccessSecret *</td>
+				<td>
+					<input type="text" name="teaSmsAccessSecret" maxlength="100" v-model="media.options.accessSecret"/>
+					<p class="comment">在<a href="http://cloud.teaos.cn/apps" target="_blank">TeaOS云App</a>中获取</p>
+				</td>
+			</tr>
+		</tbody>
+
+		<tr>
+			<td>发送频率</td>
+			<td>
+				<div class="ui fields inline">
+					<div class="ui field">
+						每
+					</div>
+					<div class="ui field">
+						<input type="text" name="rateMinutes" v-model="media.rateMinutes" size="4" maxlength="2" value="1"/>
+					</div>
+					<div class="ui field">分钟可以发送</div>
+					<div class="ui field">
+						<input type="text" name="rateCount" v-model="media.rateCount" size="4" maxlength="2" value="1"/>
+					</div>
+					<div class="ui field">
+						个通知
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+				<a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+			</td>
+		</tr>
+		<tbody v-show="advancedOptionsVisible">
+			<tr>
+				<td>发送时间段</td>
+				<td>
+					<div class="ui field">
+						<strong>开始时间</strong>
+					</div>
+					<div class="ui fields inline segment">
+						<div class="ui field">
+							小时：<input type="text" name="timeFromHour" v-model="timeFromHour" placeholder="0-23" size="4" maxlength="2" value="0"/>
+						</div>
+						<div class="ui field">
+							分钟：<input type="text" name="timeFromMinute" v-model="timeFromMinute" placeholder="0-59" size="4" maxlength="2" value="0"/>
+						</div>
+						<div class="ui field">
+							秒：<input type="text" name="timeFromSecond" v-model="timeFromSecond" placeholder="0-59" size="4" maxlength="2" value="0"/>
+						</div>
+					</div>
+					<div class="ui field">
+						<strong>结束时间</strong>
+					</div>
+					<div class="ui fields inline segment">
+						<div class="ui field">
+							小时：<input type="text" name="timeToHour" v-model="timeToHour" placeholder="0-23" size="4" maxlength="2" value="23"/>
+						</div>
+						<div class="ui field">
+							分钟：<input type="text" name="timeToMinute" v-model="timeToMinute" placeholder="0-59" size="4" maxlength="2" value="59"/>
+						</div>
+						<div class="ui field">
+							秒：<input type="text" name="timeToSecond" v-model="timeToSecond" placeholder="0-59" size="4" maxlength="2" value="59"/>
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>是否启用</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="on" value="1" v-model="media.on"/>
+						<label></label>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
+</form>
+

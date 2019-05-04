@@ -1,0 +1,49 @@
+.table th .ops {
+    position: absolute;
+    right: 2em;
+}
+
+.table th a {
+    font-weight: normal!important;
+    color: #ddd;
+}
+
+.table th a:hover {
+    color: grey;
+}
+
+.table td {
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
+#qps-chart-box {
+    height: 16em;
+}
+
+.left-box {
+    width: 20em;
+    margin-top: 1em;
+    float: left;
+}
+
+.right-box {
+    margin-left: 21em;
+    margin-top: 1em;
+}
+
+@media screen and (max-width: 512px) {
+    .left-box {
+        float: none;
+        width: 100%;
+        margin-bottom: 1em;
+    }
+
+    .right-box {
+        margin-left: 0;
+    }
+
+    .right-box .column:not(.one) {
+        width: 100%!important;
+    }
+}

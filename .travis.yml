@@ -22,7 +22,7 @@ before_deploy:
   - gunzip GeoLite2-City.mmdb.gz
   - mv GeoLite2-City.mmdb web/resources/GeoLite2-City/
   - mkdir -p releases/{bin,plugins}
-  - cp -R ./{configs,scripts,web,web/resources,www,logs,upgrade.sh} releases/
+  - cp -R ./{configs,scripts,web,www,logs,upgrade.sh} releases/
   - cp configs/admin.sample.conf releases/configs/admin.conf
   - cp configs/server.sample.conf releases/configs/server.conf
   - cp configs/mongo.sample.conf releases/configs/mongo.conf

@@ -34,7 +34,7 @@ before_deploy:
   - GOOS=windows GOARCH=amd64 go build -v -o releases/upgrades/windows/amd64/teaweb-agent.exe -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
   - GOOS=windows GOARCH=386 go build -v -o releases/upgrades/windows/386/teaweb-agent.exe -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
   - GOOS=darwin GOARCH=amd64 go build -v -o releases/upgrades/darwin/amd64/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
-  - GOOS=darwin GOARCH=386 go build -v -o releases/upgrades/darwin/386/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.gomain.go
+  - GOOS=darwin GOARCH=386 go build -v -o releases/upgrades/darwin/386/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
   - GOOS=linux GOARCH=amd64 go build -v -o releases/upgrades/linux/amd64/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
   - GOOS=linux GOARCH=386 go build -v -o releases/upgrades/linux/386/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
   - GOOS=linux GOARCH=arm64 go build -v -o releases/upgrades/linux/arm64/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go

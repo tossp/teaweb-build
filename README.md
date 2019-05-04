@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/tossp/teaweb-build.svg?branch=master)](https://travis-ci.com/tossp/teaweb-build)
+
 ## 脚本说明
 ~~~
 ./init.sh - 初始化项目，在自己开发或者构建之前需要先运行此文件，以下载依赖程序包

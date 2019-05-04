@@ -1,26 +1,43 @@
 package main
 
 import (
-	"github.com/TeaWeb/agent/teaagent"
-	"github.com/TeaWeb/plugin/loader"
-	"github.com/TeaWeb/plugin/plugins"
-	"github.com/iwind/TeaGo/timers"
-	"time"
+	"flag"
+	"fmt"
+	"github.com/TeaWeb/agentinstaller"
+	"github.com/iwind/TeaGo/maps"
+	"github.com/iwind/TeaGo/utils/string"
 )
 
+// agentinstaller -id=ID -key=KEY -master=http://xxxx:7777 -dir=xxx
 func main() {
-	p := plugins.NewPlugin()
-	p.Name = "Agent"
-	p.Code = "agent.teaweb"
-	p.Developer = "TeaWeb"
-	p.Version = "v0.0.2"
-	p.Date = "2019-03-02"
-	p.Site = "https://github.com/TeaWeb/agent"
-	p.Description = "主机Agent插件"
-	p.OnStart(func() {
-		timers.Delay(5*time.Second, func(timer *time.Timer) {
-			teaagent.Start()
-		})
-	})
-	loader.Start(p)
+	var idArg string
+	var keyArg string
+	var masterArg string
+	var dirArg string
+	flag.StringVar(&idArg, "id", "", "ID")
+	flag.StringVar(&keyArg, "key", "", "Key")
+	flag.StringVar(&masterArg, "master", "", "Master Address")
+	flag.StringVar(&dirArg, "dir", "", "Install dir")
+	flag.Parse()
+
+	installer := agentinstaller.NewInstaller()
+	installer.Id = idArg
+	installer.Key = keyArg
+	installer.Master = masterArg
+	installer.Dir = dirArg
+
+	isInstalled, err := installer.Start()
+	if err != nil {
+		fmt.Print(stringutil.JSONEncode(maps.Map{
+			"isInstalled": isInstalled,
+			"err":         err.Error(),
+			"ip":          installer.IP,
+		}))
+	} else {
+		fmt.Print(stringutil.JSONEncode(maps.Map{
+			"isInstalled": isInstalled,
+			"err":         nil,
+			"ip":          installer.IP,
+		}))
+	}
 }

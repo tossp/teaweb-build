@@ -40,7 +40,6 @@ before_deploy:
   - GOOS=linux GOARCH=arm64 go build -v -o releases/upgrades/linux/arm64/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
   - GOOS=linux GOARCH=arm go build -v -o releases/upgrades/linux/arm/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
   - chmod -R 755 releases/upgrades
-
   - GOOS=windows GOARCH=amd64 go build -v -o releases/installers/agentinstaller_windows_amd64.exe -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
   - GOOS=windows GOARCH=386 go build -v -o releases/installers/agentinstaller_windows_386.exe -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
   - GOOS=darwin GOARCH=amd64 go build -v -o releases/installers/agentinstaller_darwin_amd64 -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
@@ -50,7 +49,6 @@ before_deploy:
   - GOOS=linux GOARCH=arm64 go build -v -o releases/installers/agentinstaller_linux_arm64 -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
   - GOOS=linux GOARCH=arm go build -v -o releases/installers/agentinstaller_linux_arm -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
   - chmod -R 755 releases/installers
-
   - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
   - GOOS=windows GOARCH=amd64 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w -extldflags "-static"' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-windows-amd64.zip releases/

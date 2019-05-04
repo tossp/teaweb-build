@@ -55,7 +55,7 @@ before_deploy:
   - GOOS=linux GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
   - zip -9r teaweb-linux-amd64.zip releases/
   - cp Dockerfile releases/
-  - docker build -t tossp/teaweb releases/
+  - docker build -t tossp/teaweb:${TRAVIS_TAG} releases/
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push tossp/teaweb
 deploy:

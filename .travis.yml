@@ -38,6 +38,8 @@ before_deploy:
   - rm releases/plugins/agent.tea.exe
   - GOOS=darwin GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
   - GOOS=darwin GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
+  - chmod 755 releases/plugins/agent.tea
+  - chmod 755 releases/bin/teaweb
   - zip -9qr teaweb-darwin-amd64.zip releases/
   - GOOS=darwin GOARCH=386 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
   - GOOS=darwin GOARCH=386 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go

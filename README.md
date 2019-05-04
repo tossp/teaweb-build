@@ -1,20 +1,43 @@
 [![Build Status](https://travis-ci.com/tossp/teaweb-build.svg?branch=master)](https://travis-ci.com/tossp/teaweb-build)
 
-## 脚本说明
-~~~
-./init.sh - 初始化项目，在自己开发或者构建之前需要先运行此文件，以下载依赖程序包
+### docker使用说明
 
-./build-all.sh - 构建所有平台上可以运行的项目，会产生多个压缩文件
-./build-darwin.sh - 构建darwin平台上可以运行的项目
-./build-linux-32.sh - 构建linux 32位平台上可以运行的项目
-./build-linux-64.sh - 构建linux 64位平台上可以运行的项目
-./build-windows-32.sh - 构建windows 32位平台上可以运行的项目
-./build-windows-64.sh - 构建windows 64位平台上可以运行的项目
+以`docker-compose.yml`文件为例
+```
+mkdir storage
+docker network create ts_net
+touch docker-compose.yml
+```
 
-./run.sh - 直接从源码运行服务
+```yaml
+version: '3'
 
-./utils.sh - 一些公用的shell函数
-~~~
+services:
+ teaweb:
+  image: tossp/teaweb
+  container_name: teaweb
+  volumes:
+    - ./storage/backups:/teaweb/backups
+    - ./storage/configs:/teaweb/configs
+    - ./storage/logs:/teaweb/logs
+    - ./_VHS:/VHS
+  expose:
+    - "80"
+    - "443"
+    - "7777"
+  ports:
+    - "80:80"
+    - "443:443"
+    - "7777:7777"
+  networks:
+    - tsnet
+ # healthcheck:
+  #  test: ["CMD-SHELL", "/usr/bin/wget --quiet --tries=1 --spider http://localhost/ || exit 1"]
+  restart: on-failure
 
-### 补充说明
-构建后的压缩文件会放在`$项目目录/dist/`目录下。
+
+networks:
+  tsnet:
+    external:
+      name: ts_net
+```

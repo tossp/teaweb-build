@@ -58,6 +58,7 @@ before_deploy:
   - sed -i "s/CI_TAG/${TRAVIS_TAG}/g" releases/Dockerfile
   - docker build -t tossp/teaweb:${TRAVIS_TAG} releases/
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker tag -f tossp/teaweb:${TRAVIS_TAG} tossp/teaweb:latest
   - docker push tossp/teaweb
 deploy:
   provider: releases

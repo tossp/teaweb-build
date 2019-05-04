@@ -8,4 +8,5 @@ RUN cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 RUN apk del tzdata && rm -rf /var/cache/apk/*
 ADD . /teaweb
 EXPOSE 7777
+VOLUME ["/teaweb/backups"]
 ENTRYPOINT [ "/teaweb/bin/teaweb" ]

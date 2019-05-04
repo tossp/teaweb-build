@@ -1,6 +1,6 @@
 FROM alpine:edge
 LABEL maintainer="TossPig <docker@TossP.com>" \
-      version="0.1.0" \
+      version="CI_TAG" \
       description="teaweb"
 ENV TIMEZONE Asia/Shanghai
 RUN apk update && apk upgrade && apk add tzdata

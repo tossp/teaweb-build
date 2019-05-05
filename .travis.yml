@@ -12,10 +12,10 @@ script:
   #  - go vet ./...
   #  - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
   #  - go test -v -tags=integration -run=^$ ./test/integration # Check that integration test builds successfully, but don't run any of the tests (they hit live GitHub API).
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o core -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o agent -ldflags '-s -w -extldflags "-static"' misc/exe/pluginsAgent/main.go ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o core-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o agentinstaller -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o core -ldflags '-s -w' misc/exe/teaweb/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o agent -ldflags '-s -w' misc/exe/pluginsAgent/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o core-agent -ldflags '-s -w' misc/exe/agent/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o agentinstaller -ldflags '-s -w' misc/exe/agentinstaller/main.go ; fi
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
@@ -31,51 +31,51 @@ before_deploy:
   - cp configs/server.sample.www.proxy.conf releases/configs/server.www.proxy.conf
   - cp -R configs/widgets releases/web/libs/
 
-  - GOOS=windows GOARCH=amd64 go build -v -o releases/upgrades/windows/amd64/teaweb-agent.exe -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
-  - GOOS=windows GOARCH=386 go build -v -o releases/upgrades/windows/386/teaweb-agent.exe -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
-  - GOOS=darwin GOARCH=amd64 go build -v -o releases/upgrades/darwin/amd64/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
-  - GOOS=darwin GOARCH=386 go build -v -o releases/upgrades/darwin/386/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=amd64 go build -v -o releases/upgrades/linux/amd64/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=386 go build -v -o releases/upgrades/linux/386/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=arm64 go build -v -o releases/upgrades/linux/arm64/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=arm go build -v -o releases/upgrades/linux/arm/teaweb-agent -ldflags '-s -w -extldflags "-static"' misc/exe/agent/main.go
+  - GOOS=windows GOARCH=amd64 go build -v -o releases/upgrades/windows/amd64/teaweb-agent.exe -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=windows GOARCH=386 go build -v -o releases/upgrades/windows/386/teaweb-agent.exe -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=darwin GOARCH=amd64 go build -v -o releases/upgrades/darwin/amd64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=darwin GOARCH=386 go build -v -o releases/upgrades/darwin/386/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=amd64 go build -v -o releases/upgrades/linux/amd64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=386 go build -v -o releases/upgrades/linux/386/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=arm64 go build -v -o releases/upgrades/linux/arm64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=arm GOARM=7 go build -v -o releases/upgrades/linux/arm/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
   - chmod -R 755 releases/upgrades
-  - GOOS=windows GOARCH=amd64 go build -v -o releases/installers/agentinstaller_windows_amd64.exe -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
-  - GOOS=windows GOARCH=386 go build -v -o releases/installers/agentinstaller_windows_386.exe -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
-  - GOOS=darwin GOARCH=amd64 go build -v -o releases/installers/agentinstaller_darwin_amd64 -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
-  - GOOS=darwin GOARCH=386 go build -v -o releases/installers/agentinstaller_darwin_386 -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=amd64 go build -v -o releases/installers/agentinstaller_linux_amd64 -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=386 go build -v -o releases/installers/agentinstaller_linux_386 -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=arm64 go build -v -o releases/installers/agentinstaller_linux_arm64 -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=arm go build -v -o releases/installers/agentinstaller_linux_arm -ldflags '-s -w -extldflags "-static"' misc/exe/agentinstaller/main.go
+  - GOOS=windows GOARCH=amd64 go build -v -o releases/installers/agentinstaller_windows_amd64.exe -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=windows GOARCH=386 go build -v -o releases/installers/agentinstaller_windows_386.exe -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=darwin GOARCH=amd64 go build -v -o releases/installers/agentinstaller_darwin_amd64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=darwin GOARCH=386 go build -v -o releases/installers/agentinstaller_darwin_386 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=amd64 go build -v -o releases/installers/agentinstaller_linux_amd64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=386 go build -v -o releases/installers/agentinstaller_linux_386 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=arm64 go build -v -o releases/installers/agentinstaller_linux_arm64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=arm GOARM=7 go build -v -o releases/installers/agentinstaller_linux_arm-v6 -ldflags '-s -w' misc/exe/agentinstaller/main.go
   - chmod -R 755 releases/installers
-  - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
-  - GOOS=windows GOARCH=amd64 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w -extldflags "-static"' misc/exe/pluginsAgent/main.go
+  - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=windows GOARCH=amd64 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-windows-amd64.zip releases/
-  - GOOS=windows GOARCH=386 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
-  - GOOS=windows GOARCH=386 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w -extldflags "-static"' misc/exe/pluginsAgent/main.go
+  - GOOS=windows GOARCH=386 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=windows GOARCH=386 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-windows-386.zip releases/
   - rm releases/bin/teaweb.exe
   - rm releases/plugins/agent.tea.exe
-  - GOOS=darwin GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
-  - GOOS=darwin GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/pluginsAgent/main.go
+  - GOOS=darwin GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=darwin GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - chmod 755 releases/plugins/agent.tea
   - chmod 755 releases/bin/teaweb
   - zip -9qr teaweb-darwin-amd64.zip releases/
-  - GOOS=darwin GOARCH=386 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
-  - GOOS=darwin GOARCH=386 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/pluginsAgent/main.go
+  - GOOS=darwin GOARCH=386 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=darwin GOARCH=386 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-darwin-386.zip releases/
-  - GOOS=linux GOARCH=arm go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=arm go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=arm GOARM=7 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=arm GOARM=7 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-arm.zip releases/
-  - GOOS=linux GOARCH=arm64 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=arm64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=arm64 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=arm64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-arm64.zip releases/
-  - GOOS=linux GOARCH=386 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=386 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=386 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=386 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-386.zip releases/
-  - GOOS=linux GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w -extldflags "-static"' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w -extldflags "-static"' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9r teaweb-linux-amd64.zip releases/
   - sed -i "s/CI_TAG/${TRAVIS_TAG}/g" Dockerfile
   - docker build -t tossp/teaweb:${TRAVIS_TAG} .

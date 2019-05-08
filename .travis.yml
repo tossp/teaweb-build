@@ -29,7 +29,7 @@ before_deploy:
   - cp configs/mongo.sample.conf releases/configs/mongo.conf
   - cp configs/server.sample.www.proxy.conf releases/configs/server.www.proxy.conf
   - cp -R configs/widgets releases/web/libs/
-
+  - mkdir releases/web/tmp
   - GOOS=windows GOARCH=amd64 go build -v -o releases/upgrades/windows/amd64/teaweb-agent.exe -ldflags '-s -w' misc/exe/agent/main.go
   - GOOS=windows GOARCH=386 go build -v -o releases/upgrades/windows/386/teaweb-agent.exe -ldflags '-s -w' misc/exe/agent/main.go
   - GOOS=darwin GOARCH=amd64 go build -v -o releases/upgrades/darwin/amd64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
@@ -46,7 +46,7 @@ before_deploy:
   - GOOS=linux GOARCH=amd64 go build -v -o releases/installers/agentinstaller_linux_amd64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
   - GOOS=linux GOARCH=386 go build -v -o releases/installers/agentinstaller_linux_386 -ldflags '-s -w' misc/exe/agentinstaller/main.go
   - GOOS=linux GOARCH=arm64 go build -v -o releases/installers/agentinstaller_linux_arm64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=arm go build -v -o releases/installers/agentinstaller_linux_arm-v6 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=arm go build -v -o releases/installers/agentinstaller_linux_arm -ldflags '-s -w' misc/exe/agentinstaller/main.go
   - chmod -R 755 releases/installers
   - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w' misc/exe/teaweb/main.go
   - GOOS=windows GOARCH=amd64 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w' misc/exe/pluginsAgent/main.go

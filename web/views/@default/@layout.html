@@ -28,6 +28,7 @@
             </a>
             <a v-if="teaIsSuper" :href="Tea.url('settings')" class="item" :class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
             <a v-if="!teaIsSuper" :href="Tea.url('settings.login')" class="item" :class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
+			<a :href="Tea.url('settings.cluster')" class="item" :class="{active: teaMenu == 'cluster'}" v-if="teaClusterEnabled"><i class="icon clone" :class="{red:teaClusterIsChanged}"></i>集群<em v-if="teaClusterActive">(已连接)</em></a>
             <a :href="Tea.url('logout')" class="item" title="安全退出登录"><i class="icon sign out"></i>退出</a>
         </div>
     </div>
@@ -103,7 +104,6 @@
 	</div>
     <div id="footer" class="ui menu inverted light-blue borderless small">
         <a  href="/settings/update" class="item" title="点击进入检查版本更新页面">{{teaName}} v{{teaVersion}}</a>
-        <!--<a href="http://teaos.cn" target="_blank" class="item">官网</a>-->
         <a href="https://github.com/TeaWeb/build" target="_blank" class="item">GitHub</a>
 		<a href="http://teaos.cn" target="_blank" class="item">官网</a>
         <a href="http://teaos.cn/doc" target="_blank" class="item">文档</a>

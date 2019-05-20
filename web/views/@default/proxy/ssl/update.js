@@ -1,5 +1,8 @@
 Tea.context(function () {
 	this.$delay(function () {
+		if (this.certs.length == 0) {
+			this.addCert();
+		}
 		this.sortable();
 	});
 
@@ -23,6 +26,29 @@ Tea.context(function () {
 		alert("修改成功");
 
 		window.location = "/proxy/ssl?serverId=" + this.server.id;
+	};
+
+	/**
+	 * 证书
+	 */
+	this.addCert = function () {
+		this.certs.push({
+			"description": "",
+			"certFile": "",
+			"keyFile": "",
+			"isLocal": false
+		});
+		this.$delay(function () {
+			this.$find("#cert-descriptions-input-" + (this.certs.length - 1)).focus();
+		});
+	};
+
+	this.removeCert = function (index) {
+		if (!window.confirm("确定要移除此证书吗？")) {
+			return;
+		}
+
+		this.certs.$remove(index);
 	};
 
 	/**

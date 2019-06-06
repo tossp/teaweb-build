@@ -5,13 +5,15 @@ go 1.12
 require (
 	github.com/Microsoft/go-winio v0.4.12 // indirect
 	github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705 // indirect
-	github.com/TeaWeb/agent v0.0.0-20190528011038-642a7d4f7da2
-	github.com/TeaWeb/agentinstaller v0.0.0-20190318054857-77a3a267cb27
-	github.com/TeaWeb/code v0.0.0-20190527130907-8336f87db75a
+	github.com/TeaWeb/agent v0.0.0-20190530043943-2d16f5f53163
+	github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9
+	github.com/TeaWeb/code v0.0.0-20190605034326-af2b1baab73d
 	github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a
-	github.com/TeaWeb/uaparser v0.0.0-20181213121349-fcd1211e77e0 // indirect
+	github.com/TeaWeb/uaparser v0.0.0-20190526084055-a1c9449348d8 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190430075129-62f3cb8727f4 // indirect
+	github.com/cenkalti/backoff v2.1.1+incompatible // indirect
 	github.com/dchest/siphash v1.2.1 // indirect
+	github.com/go-acme/lego v2.6.0+incompatible // indirect
 	github.com/go-ole/go-ole v1.2.4 // indirect
 	github.com/go-redis/redis v6.15.2+incompatible // indirect
 	github.com/go-sql-driver/mysql v1.4.1 // indirect
@@ -25,6 +27,7 @@ require (
 	github.com/json-iterator/go v1.1.6 // indirect
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/lib/pq v1.1.1 // indirect
+	github.com/miekg/dns v1.1.13 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/oschwald/geoip2-golang v1.2.1 // indirect
@@ -51,4 +54,5 @@ require (
 	google.golang.org/appengine v1.5.0 // indirect
 	gopkg.in/ini.v1 v1.42.0 // indirect
 	gopkg.in/sourcemap.v1 v1.0.5 // indirect
+	gopkg.in/square/go-jose.v2 v2.3.1 // indirect
 )

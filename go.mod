@@ -56,3 +56,5 @@ require (
 	gopkg.in/sourcemap.v1 v1.0.5 // indirect
 	gopkg.in/square/go-jose.v2 v2.3.1 // indirect
 )
+
+replace github.com/go-acme/lego v2.6.0+incompatible => github.com/tossp/teaweb-lego v0.0.0-20190606070638-5d2242ad2167

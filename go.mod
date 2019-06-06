@@ -7,7 +7,7 @@ require (
 	github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705 // indirect
 	github.com/TeaWeb/agent v0.0.0-20190530043943-2d16f5f53163
 	github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9
-	github.com/TeaWeb/code v0.0.0-20190605034326-af2b1baab73d
+	github.com/TeaWeb/code v0.0.0-20190606081942-42703838f43d
 	github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a
 	github.com/TeaWeb/uaparser v0.0.0-20190526084055-a1c9449348d8 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190430075129-62f3cb8727f4 // indirect

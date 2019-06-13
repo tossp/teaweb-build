@@ -2,12 +2,12 @@ github.com/Microsoft/go-winio v0.4.12 h1:xAfWHN1IrQ0NJ9TBC0KBZoqLjzDTr1ML+4MywiU
 github.com/Microsoft/go-winio v0.4.12/go.mod h1:VhR8bwka0BXejwEJY73c50VrPtXAaKcyvVC4A4RozmA=
 github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705 h1:UUppSQnhf4Yc6xGxSkoQpPhb7RVzuv5Nb1mwJ5VId9s=
 github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705/go.mod h1:3eOhrUMpNV+6aFIbp5/iudMxNCF27Vw2OZgy4xEx0Fg=
-github.com/TeaWeb/agent v0.0.0-20190530043943-2d16f5f53163 h1:2HfN2At56X+pqacBymB7qeCEHPkJZ49vKA3xpBc75ZI=
-github.com/TeaWeb/agent v0.0.0-20190530043943-2d16f5f53163/go.mod h1:sKq3cDTMkEgazeYI4TKo03Xz9PTPwMZ2yiQnPg+qXLs=
+github.com/TeaWeb/agent v0.0.0-20190610013942-0e70847a8ebe h1:oURX7SAVLt+XXKY8LHUlzd1Zgs0e8dPOY5gth4udUk0=
+github.com/TeaWeb/agent v0.0.0-20190610013942-0e70847a8ebe/go.mod h1:sKq3cDTMkEgazeYI4TKo03Xz9PTPwMZ2yiQnPg+qXLs=
 github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9 h1:uFHM1AU8+iHtv3Dscb5G4FG8MqDiT79RyTE5+SSLmgk=
 github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9/go.mod h1:RvsddRGxwRrdDxcVZAaOgn1md7ZNzFhqM/v9UxKpdV8=
-github.com/TeaWeb/code v0.0.0-20190606081942-42703838f43d h1:XS1OdMMApp2ypZlaVNYcOsWi1AoEtUfFHuh9ntHJ9+U=
-github.com/TeaWeb/code v0.0.0-20190606081942-42703838f43d/go.mod h1:adA5myW2JZ7qj/53ar6HUFNftRCbXadWJQhVj7iIulM=
+github.com/TeaWeb/code v0.0.0-20190612074108-7bc04989c971 h1:MfgnXWlHB3CPtsKwQlUKUlw1HUjF4y8LdU8CBxlJ1TE=
+github.com/TeaWeb/code v0.0.0-20190612074108-7bc04989c971/go.mod h1:adA5myW2JZ7qj/53ar6HUFNftRCbXadWJQhVj7iIulM=
 github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a h1:eBirFjqMtroy4c/kqy+wh1JHuDMNMzPSf4IupEYxt1A=
 github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a/go.mod h1:HZS9S9Dr7LiAMPAJtQn0A60wU6zFi/wZ49uK+g058R8=
 github.com/TeaWeb/uaparser v0.0.0-20190526084055-a1c9449348d8 h1:RB/ViZWtFrBoOBCl1G/BoK+vwN5fn1T6Nu0ZRAX+pzM=

@@ -120,6 +120,8 @@ before_deploy:
   - GOOS=linux GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9r teaweb-linux-amd64.zip releases/
   - sed -i "s/CI_TAG/${TRAVIS_TAG}/g" Dockerfile
+  - rm releases/bin/service_install
+  - rm releases/bin/service_uninstall
   - docker build -t tossp/teaweb:${TRAVIS_TAG} .
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker tag tossp/teaweb:${TRAVIS_TAG} tossp/teaweb:latest

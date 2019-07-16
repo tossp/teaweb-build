@@ -8,8 +8,6 @@
 # teaweb agent install dir
 INSTALL_DIR=/opt/teaweb/agent
 
-export TEAROOT=${INSTALL_DIR}
-
 case "$1" in
 start)
     ${INSTALL_DIR}/bin/teaweb-agent start
@@ -20,7 +18,10 @@ stop)
 restart)
     ${INSTALL_DIR}/bin/teaweb-agent restart
     ;;
+status)
+    ${INSTALL_DIR}/bin/teaweb-agent status
+    ;;
 *)
-    echo $"Usage: $0 {start|stop|restart}"
+    echo $"Usage: $0 {start|stop|restart|status}"
     exit 2
 esac

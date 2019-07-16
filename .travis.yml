@@ -15,6 +15,8 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o agent -ldflags '-s -w' misc/exe/pluginsAgent/main.go ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o core-agent -ldflags '-s -w' misc/exe/agent/main.go ; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o agentinstaller -ldflags '-s -w' misc/exe/agentinstaller/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o service_install -ldflags '-s -w' misc/exe/service_install/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o service_uninstall -ldflags '-s -w' misc/exe/service_uninstall/main.go ; fi
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
@@ -62,12 +64,18 @@ before_deploy:
   - GOOS=freebsd GOARCH=amd64 go build -v -o releases/installers/agentinstaller_linux_amd64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
   - chmod -R 755 releases/installers
   - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/service_install.exe -ldflags '-s -w' misc/exe/service_install/main.go
+  - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/service_uninstall.exe -ldflags '-s -w' misc/exe/service_uninstall/main.go
   - GOOS=windows GOARCH=amd64 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-windows-amd64.zip releases/
   - GOOS=windows GOARCH=386 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=windows GOARCH=386 go build -v -o releases/bin/service_install.exe -ldflags '-s -w' misc/exe/service_install/main.go
+  - GOOS=windows GOARCH=386 go build -v -o releases/bin/service_uninstall.exe -ldflags '-s -w' misc/exe/service_uninstall/main.go
   - GOOS=windows GOARCH=386 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-windows-386.zip releases/
   - rm releases/bin/teaweb.exe
+  - rm releases/bin/service_install.exe
+  - rm releases/bin/service_uninstall.exe
   - rm releases/plugins/agent.tea.exe
   - GOOS=darwin GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
   - GOOS=darwin GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
@@ -102,9 +110,13 @@ before_deploy:
   - GOOS=linux GOARCH=arm64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-arm64.zip releases/
   - GOOS=linux GOARCH=386 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=386 go build -v -o releases/bin/service_install -ldflags '-s -w' misc/exe/service_install/main.go
+  - GOOS=linux GOARCH=386 go build -v -o releases/bin/service_uninstall -ldflags '-s -w' misc/exe/service_uninstall/main.go
   - GOOS=linux GOARCH=386 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-386.zip releases/
   - GOOS=linux GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=amd64 go build -v -o releases/bin/service_install -ldflags '-s -w' misc/exe/service_install/main.go
+  - GOOS=linux GOARCH=amd64 go build -v -o releases/bin/service_uninstall -ldflags '-s -w' misc/exe/service_uninstall/main.go
   - GOOS=linux GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9r teaweb-linux-amd64.zip releases/
   - sed -i "s/CI_TAG/${TRAVIS_TAG}/g" Dockerfile

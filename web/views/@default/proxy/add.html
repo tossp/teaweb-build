@@ -7,6 +7,7 @@
 <h3>添加新代理</h3>
 
 <div>
+	<!-- 导航 -->
 	<div class="ui steps small grey fluid">
 		<div class="step" :class="{active:currentStep == 'name'}">
 			<div class="content">
@@ -28,7 +29,7 @@
 				<div class="title">服务类型</div>
 			</div>
 		</div>
-		<div class="step" :class="{active:currentStep == 'backend'}" v-if="serverType == 'proxy'">
+		<div class="step" :class="{active:currentStep == 'backend'}" v-if="serverType == 'proxy' || serverType == 'tcp'">
 			<div class="content">
 				<div class="title">后端服务器地址</div>
 			</div>
@@ -45,12 +46,13 @@
 		</div>
 	</div>
 
+	<!-- 步骤 -->
 	<form class="ui form" data-tea-action="$">
 		<!-- 名称 -->
 		<div v-show="currentStep == 'name'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
-					<td class="title">服务名称</td>
+					<td class="title">服务名称 *</td>
 					<td>
 						<input type="text" name="description" v-model="description" maxlength="100"  @keyup.enter="nextName()" @keypress.enter.prevent="1" />
 						<p class="comment">给此服务起一个易懂的名字，比如 "负载均衡001"</p>
@@ -62,11 +64,11 @@
 
 		<!-- 绑定域名 -->
 		<div v-show="currentStep == 'domain'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
 					<td class="title">绑定的域名</td>
 					<td>
-<span class="ui label small" v-for="(name, arrayIndex) in names" :class="{blue:nameEditingIndex == arrayIndex}">{{name}}
+<span class="ui label tiny" v-for="(name, arrayIndex) in names" :class="{blue:nameEditingIndex == arrayIndex}">{{name}}
                         <input type="hidden" name="names" :value="name"/> &nbsp;
 						<a href="" @click.prevent="editName(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
                         <a href="" @click.prevent="removeName(arrayIndex)" title="删除"><i class="icon remove"></i></a>
@@ -94,11 +96,11 @@
 
 		<!-- 网络地址 -->
 		<div v-show="currentStep == 'listen'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
-					<td class="title">绑定的网络地址</td>
+					<td class="title">绑定的网络地址 *</td>
 					<td>
-						<span class="ui label small" v-for="(listen, arrayIndex) in listens" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
+						<span class="ui label tiny" v-for="(listen, arrayIndex) in listens" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
                         <input type="hidden" name="listens" :value="listen"/> &nbsp;
 						<a href="" @click.prevent="editListen(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
                         <a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
@@ -112,12 +114,15 @@
 								&nbsp; <a href="" @click.prevent="cancelListenAdding()">取消</a>
 							</div>
 						</div>
+						<div class="labels-box" v-if="localAddrs.length > 0 && addingListenName.length > 0">
+							<a class="ui label tiny normal" v-for="localAddr in localAddrs" v-if="localAddr.addr.startsWith(addingListenName) || addingListenName.startsWith(localAddr.addr)" v-html="highlightAddr(localAddr, addingListenName)" @click="selectLocalAddr(localAddr.addr)" title="点击使用此地址"></a>
+						</div>
 						<div class="ui field" style="margin-top: 1em">
 							<button class="ui button tiny" type="button" @click="addListen()">+</button>
 						</div>
 						<p class="comment" style="padding-bottom:0;margin-bottom:0.4em">绑定的服务器端的网络地址，一般是IP加端口，比如"192.168.1.100:80"。</p>
 						<p class="comment" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0">要想通过服务器的所有IP地址都能访问到服务，可以将IP地址写成"0.0.0.0:端口"。</p>
-						<p class="comment" style="padding-top:0;margin-top:0.4em">如果想设置HTTPS，可以在完成代理服务添加后再设置。</p>
+						<p class="comment" style="padding-top:0;margin-top:0.4em">如果想设置HTTPS/TLS，可以在完成代理服务添加后再设置。</p>
 					</td>
 				</tr>
 			</table>
@@ -127,12 +132,13 @@
 
 		<!-- 类型 -->
 		<div v-show="currentStep == 'type'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
-					<td class="title">服务类型</td>
+					<td class="title">服务类型 *</td>
 					<td>
 						<select class="ui dropdown" name="serverType" v-model="serverType" style="width:10em">
-							<option value="proxy">代理服务</option>
+							<option value="proxy">HTTP代理服务</option>
+							<option value="tcp">TCP代理服务</option>
 							<option value="static">普通的Web服务</option>
 						</select>
 						<p class="comment" v-if="serverType == 'proxy'">通过TeaWeb将用户请求转发到一个或一组后端服务器中，通常可以实现负载均衡和反向代理服务。</p>
@@ -148,11 +154,11 @@
 
 		<!-- 后端服务器 -->
 		<div v-show="currentStep == 'backend'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
 					<td class="title">后端服务器地址</td>
 					<td>
-						<span class="ui label small" v-for="(backend, arrayIndex) in backends" :class="{blue:arrayIndex == editingBackendIndex}">{{backend}}
+						<span class="ui label tiny" v-for="(backend, arrayIndex) in backends" :class="{blue:arrayIndex == editingBackendIndex}">{{backend}}
                         <input type="hidden" name="backends" :value="backend"/> &nbsp;
 						<a href="" @click.prevent="editBackend(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
                         <a href="" @click.prevent="removeBackend(arrayIndex)" title="删除"><i class="icon remove"></i></a>
@@ -165,6 +171,9 @@
 								<button class="ui button tiny" type="button" @click="confirmAddBackend()">确定</button>
 								&nbsp; <a href="" @click.prevent="cancelBackendAdding()">取消</a>
 							</div>
+						</div>
+						<div class="labels-box" v-if="localListens.length > 0 && addingBackendName.length > 0">
+							<a class="ui label tiny normal" v-for="localAddr in localListens" v-if="localAddr.addr.indexOf(addingBackendName) >= 0 || addingBackendName.indexOf(localAddr.addr) >= 0" v-html="highlightAddr(localAddr, addingBackendName)" @click="selectLocalBackend(localAddr)" title="点击使用此地址"></a>
 						</div>
 						<div class="ui field" style="margin-top: 1em">
 							<button class="ui button tiny" type="button" @click="addBackend()">+</button>
@@ -181,7 +190,7 @@
 
 		<!-- 网站根目录 -->
 		<div v-show="currentStep == 'root'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
 					<td class="title">网站根目录</td>
 					<td>
@@ -206,21 +215,22 @@
 					<td>绑定的域名</td>
 					<td>
 						<span v-if="names.length == 0" class="disabled">暂时还没有设置绑定的域名</span>
-						<span v-for="name in names" class="ui label">{{name}}</span>
+						<span v-for="name in names" class="ui label tiny">{{name}}</span>
 					</td>
 				</tr>
 				<tr>
 					<td>绑定的网络地址</td>
 					<td>
 						<span v-if="listens.length == 0" class="disabled">暂时还没有设置绑定的网络地址</span>
-						<span v-for="listen in listens" class="ui label">{{listen}}</span>
+						<span v-for="listen in listens" class="ui label tiny">{{listen}}</span>
 					</td>
 				</tr>
 				<tr>
 					<td>服务类型</td>
 					<td>
-						<span v-if="serverType == 'proxy'">代理服务</span>
+						<span v-if="serverType == 'proxy'">HTTP代理服务</span>
 						<span v-if="serverType == 'static'">普通的Web服务</span>
+						<span v-if="serverType == 'tcp'">TCP代理服务</span>
 					</td>
 				</tr>
 				<tr v-if="serverType == 'static'">
@@ -230,11 +240,11 @@
 						<span v-if="root.length > 0">{{root}}</span>
 					</td>
 				</tr>
-				<tr v-if="serverType == 'proxy'">
+				<tr v-if="serverType == 'proxy' || serverType == 'tcp'">
 					<td>后端服务器地址</td>
 					<td>
 						<span v-if="backends.length == 0" class="disabled">暂时还没有设置后端服务器地址</span>
-						<span v-for="backend in backends" class="ui label">{{backend}}</span>
+						<span v-for="backend in backends" class="ui label tiny">{{backend}}</span>
 					</td>
 				</tr>
 			</table>

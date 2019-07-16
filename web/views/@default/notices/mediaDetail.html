@@ -23,8 +23,8 @@
 	<tr>
 		<td>是否启用</td>
 		<td>
-			<span class="ui label small green" v-if="media.on">启用中</span>
-			<span class="ui label small" v-if="!media.on">未启用</span>
+			<span class="ui label tiny green" v-if="media.on">启用中</span>
+			<span class="ui label tiny" v-if="!media.on">未启用</span>
 		</td>
 	</tr>
 	<tr>
@@ -32,6 +32,10 @@
 		<td>
 			{{media.name}}
 		</td>
+	</tr>
+	<tr>
+		<td>媒介ID</td>
+		<td>{{media.id}}</td>
 	</tr>
 	<tr>
 		<td>类型</td>
@@ -140,6 +144,8 @@
 			<td>{{media.options.webhookURL}}</td>
 		</tr>
 	</tbody>
+
+	<!-- 企业微信 -->
 	<tbody v-if="media.type == 'qyWeixin'">
 		<tr>
 			<td>企业ID</td>
@@ -157,6 +163,28 @@
 			<td>应用Secret</td>
 			<td>
 				{{media.options.appSecret}}
+			</td>
+		</tr>
+		<tr>
+			<td>内容文本格式</td>
+			<td>
+				<span v-if="media.options.textFormat == null">text</span>
+				{{media.options.textFormat}}
+			</td>
+		</tr>
+	</tbody>
+
+	<!-- 企业微信群机器人 -->
+	<tbody v-if="media.type == 'qyWeixinRobot'">
+		<tr>
+			<td>Webhook地址</td>
+			<td>{{media.options.webhookURL}}</td>
+		</tr>
+		<tr>
+			<td>内容文本格式</td>
+			<td>
+				<span v-if="media.options.textFormat == null">text</span>
+                {{media.options.textFormat}}
 			</td>
 		</tr>
 	</tbody>

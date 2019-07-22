@@ -6,8 +6,8 @@ github.com/TeaWeb/agent v0.0.0-20190714105846-6302c907ebe0 h1:4DKOCNu/RhOMmc56SC
 github.com/TeaWeb/agent v0.0.0-20190714105846-6302c907ebe0/go.mod h1:sKq3cDTMkEgazeYI4TKo03Xz9PTPwMZ2yiQnPg+qXLs=
 github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9 h1:uFHM1AU8+iHtv3Dscb5G4FG8MqDiT79RyTE5+SSLmgk=
 github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9/go.mod h1:RvsddRGxwRrdDxcVZAaOgn1md7ZNzFhqM/v9UxKpdV8=
-github.com/TeaWeb/code v0.1.6-0.20190716094644-63d42e9d2110 h1:zgQXKUMSOYVCH3Edxawzmi89brTFFRi37vuvrqhq3io=
-github.com/TeaWeb/code v0.1.6-0.20190716094644-63d42e9d2110/go.mod h1:adA5myW2JZ7qj/53ar6HUFNftRCbXadWJQhVj7iIulM=
+github.com/TeaWeb/code v0.1.7-0.20190722061835-eb887e37ba0b h1:oLr/RYAF+nCbLL5fkYoxfRie6PWGPLtNURCksgvb5tE=
+github.com/TeaWeb/code v0.1.7-0.20190722061835-eb887e37ba0b/go.mod h1:adA5myW2JZ7qj/53ar6HUFNftRCbXadWJQhVj7iIulM=
 github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a h1:eBirFjqMtroy4c/kqy+wh1JHuDMNMzPSf4IupEYxt1A=
 github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a/go.mod h1:HZS9S9Dr7LiAMPAJtQn0A60wU6zFi/wZ49uK+g058R8=
 github.com/TeaWeb/uaparser v0.0.0-20190526084055-a1c9449348d8 h1:RB/ViZWtFrBoOBCl1G/BoK+vwN5fn1T6Nu0ZRAX+pzM=

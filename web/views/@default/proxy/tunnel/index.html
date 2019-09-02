@@ -14,7 +14,7 @@
 {$template "/proxy/menu"}
 
 <div class="second-menu">
-	<div class="ui menu text blue small">
+	<div class="ui menu text blue tiny">
 		<a :href="'/proxy/tunnel?serverId=' + server.id" class="item active">详情</a>
 		<a :href="'/proxy/tunnel/update?serverId=' + server.id" class="item">
 			<span v-if="tunnel != null">修改</span>
@@ -54,7 +54,7 @@
 		<td>{{tunnel.endpoint}}</td>
 	</tr>
 	<tr>
-		<td>客户端密钥</td>
+		<td>客户端私钥</td>
 		<td>
 			<span v-if="tunnel.secret != null && tunnel.secret.length > 0">{{tunnel.secret}}</span>
 			<span v-if="tunnel.secret == null || tunnel.secret.length == 0" class="disabled">没有设置</span>

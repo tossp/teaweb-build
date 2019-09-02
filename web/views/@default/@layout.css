@@ -61,6 +61,10 @@ tbody {
     width: 40em !important;
 }
 
+.table th, .table td {
+    font-size: 0.9em !important;
+}
+
 p.comment, div.comment {
     color: rgba(0, 0, 0, 0.3);
     padding-top: 0.4em;
@@ -164,8 +168,8 @@ body.expanded .main {
     position: fixed;
     width: 100%;
     z-index: 1000;
-    background: #276ac6 !important;
     overflow-x: auto;
+    background: #276ac6 !important;
 }
 
 .top-nav::-webkit-scrollbar {
@@ -187,11 +191,48 @@ body.expanded .main {
     padding-left: 0.2em;
 }
 
+/** 顶部搜索框 **/
+.top-nav .top-search-box.small {
+    height: 2em;
+    min-width: 2em !important;
+}
+
+.top-nav .top-search-box input {
+    font-size: 0.8em !important;
+    padding: 0 !important;
+    width: 2.4em !important;
+}
+
+/** 顶部菜单 **/
+.top-secondary-menu {
+    position: fixed;
+    top: 2.6em;
+    left: 8.2em;
+    right: 0;
+    z-index: 100;
+    background: white;
+}
+
+.top-secondary-menu .menu {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+}
+
+.top-secondary-menu .menu var {
+    font-style: normal;
+}
+
+.top-secondary-menu .divider {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
 /** 右侧主操作区 **/
 .main {
     position: absolute;
     left: 22em;
-    top: 3em;
+    top: 5.6em;
     padding-bottom: 5em;
     padding-right: 1em;
     right: 1em;
@@ -223,6 +264,10 @@ body.expanded .main {
 
 .main table td {
     vertical-align: top;
+}
+
+.main table td.color-border {
+    border-left: 1px #276ac6 solid !important;
 }
 
 .main table td.vertical-top {
@@ -338,11 +383,15 @@ body.expanded .main {
 }
 
 /** 子菜单 **/
+.main.without-menu .sub-menu {
+    display: none;
+}
+
 .sub-menu {
     position: fixed;
     left: 8em;
     width: 12.5em;
-    top: 4em;
+    top: 6em;
     bottom: 2.8em;
 }
 
@@ -461,15 +510,6 @@ body.expanded .main {
 
 .sub-menu .fourth-menu .icon, .sub-menu .third-menu .icon {
     float: left !important;
-}
-
-.sub-menu .operations-box {
-    position: absolute;
-    z-index: 100;
-    bottom: 0;
-    background: white;
-    left: 0.3em;
-    right: 0.2em;
 }
 
 /** 右侧文本子菜单 **/
@@ -627,4 +667,69 @@ span.olive, var.olive {
 
 var.dash {
     border-bottom: 1px dashed grey;
+}
+
+/** modal **/
+.modal {
+    background: rgba(0, 0, 0, 0.25);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: none;
+}
+
+.modal.visible {
+    display: block;
+}
+
+.modal .modal-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    padding: 2em 0.4em 1em 0.4em;
+    border-radius: 0.3em;
+}
+
+.modal .modal-box .form {
+    position: absolute;
+    top: 2em;
+    bottom: 0.4em;
+    left: 0;
+    right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.modal .modal-box .bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: right;
+    padding-right: 1em;
+    padding-top: 0.4em;
+    border-top: 1px rgba(0, 0, 0, 0.1) solid;
+}
+
+.modal .modal-box.small {
+    width: 40%;
+    margin-left: -20%;
+    height: 40%;
+    margin-top: -20%;
+    background: white;
+}
+
+.modal .icon.close {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+}
+
+/** Message **/
+.message .gopher {
+    width: 30px;
+    margin-right: 10px;
 }

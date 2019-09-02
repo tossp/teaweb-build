@@ -15,9 +15,18 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 证书
+	 */
+	this.useCert = false;
+
+	/**
 	 * 地址
 	 */
 	this.address = "";
+	this.scheme = "http";
+	if (this.isTCP) {
+		this.scheme = "tcp";
+	}
 
 	this.changeAddress = function () {
 		if (this.address == null) {
@@ -31,6 +40,20 @@ Tea.context(function () {
 		var index = this.address.indexOf("/");
 		if (index > -1) {
 			this.address = this.address.substring(0, index);
+		}
+	};
+
+	/**
+	 * 主机名
+	 */
+	this.host = "";
+	this.hostError = "";
+	this.changeHost = function () {
+		var host = this.host.trim().replace(/[a-zA-Z0-9-\\.]/g, "");
+		if (host.length > 0) {
+			this.hostError = "主机名中含有特殊字符“" + host + "”，可能会导致后端服务器无法解析。";
+		} else {
+			this.hostError = "";
 		}
 	};
 
@@ -137,4 +160,9 @@ Tea.context(function () {
 		this.responseHeadersAddingName = this.responseHeaders[index].name;
 		this.responseHeadersAddingValue = this.responseHeaders[index].value;
 	};
+
+	/**
+	 * 健康检查
+	 */
+	this.checkOn = false;
 });

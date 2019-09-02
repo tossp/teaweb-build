@@ -9,7 +9,7 @@
 
 td .op-link {
     position: absolute;
-    right: 1em;
+    right: 2em;
 }
 
 /** 加密套件相关 **/
@@ -47,4 +47,19 @@ td .op-link {
 /** hsts **/
 .comment a.active {
     font-weight: bold;
+}
+
+/** CA证书 **/
+.ca-certs-box {
+    margin-top: 1em;
+}
+
+.ca-certs-box .label {
+    margin-top: 0.4em !important;
+    margin-bottom: 0.4em !important;
+}
+
+.ca-certs-box .label {
+    color: #4183c4 !important;
+    font-weight: normal;
 }

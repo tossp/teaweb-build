@@ -10,6 +10,7 @@ Tea.context(function () {
 	 * 加载图表
 	 */
 	this.charts = [];
+	this.error = "";
 
 	this.loadCharts = function () {
 		this.$post("$")
@@ -25,6 +26,8 @@ Tea.context(function () {
 				// charts
 				this.charts = resp.data.charts;
 				new ChartRender(this.charts);
+
+				this.error = resp.data.error;
 			})
 			.done(function () {
 				this.$delay(function () {
@@ -75,7 +78,7 @@ Tea.context(function () {
 						})
 						.success(function () {
 							this.$get("/agents/menu")
-								.params({ "agentId":this.agentId })
+								.params({"agentId": this.agentId})
 								.success(function (resp) {
 									this.teaSubMenus.menus = [];
 									this.$delay(function () {
@@ -110,5 +113,12 @@ Tea.context(function () {
 				"agentId": this.agentId
 			})
 			.refresh();
+	};
+
+	/**
+	 * 显示设置
+	 */
+	this.updateChartSetting = function (appId, itemId, chartId) {
+		this.showModal("chart-setting-modal");
 	};
 });

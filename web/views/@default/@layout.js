@@ -1,4 +1,8 @@
 Tea.context(function () {
+	if (typeof (teaweb) != "undefined") {
+		this.teaweb = teaweb;
+	}
+
 	/**
 	 * 测试MongoDB连接
 	 */
@@ -18,6 +22,7 @@ Tea.context(function () {
 
 	this.$delay(function () {
 		this.renewNoticeBadge();
+		this.loadGlobalEvents();
 	});
 
 	var documentTitle = document.title;
@@ -100,5 +105,56 @@ Tea.context(function () {
 			}
 		}
 		return false;
+	};
+
+	/**
+	 * 当前URL
+	 */
+	this.globalURL = encodeURIComponent(window.location.toString());
+
+	/**
+	 * ss进入搜索
+	 */
+	var lastSSTime = null;
+	this.loadGlobalEvents = function () {
+		var that = this;
+		document.addEventListener("keyup", function (e) {
+			if (e.key == null || e.target == null) {
+				return;
+			}
+			if (["INPUT", "SELECT", "TEXTAREA", "BUTTON"].$contains(e.target.tagName)) {
+				return;
+			}
+			if (e.key.toString() == "s") {
+				if (lastSSTime == null) {
+					lastSSTime = new Date();
+					return;
+				}
+				var delta = new Date().getTime() - lastSSTime.getTime();
+				if (delta < 500) {
+					window.location = "/search?from=" + encodeURIComponent(window.location.toString());
+					return;
+				}
+				lastSSTime = new Date();
+			}
+
+			if (e.key.toString() == "Escape") {
+				that.closeModal();
+			}
+		});
+	};
+
+	/**
+	 * 关闭Modal
+	 */
+	this.closeModal = function () {
+		this.$find(".modal").each(function (k, v) {
+			v.className = "modal";
+		});
+	};
+
+	this.showModal = function (modalId) {
+		var modal = document.getElementById("chart-setting-modal");
+		modal.className = "modal visible";
 	};
 });

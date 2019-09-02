@@ -18,6 +18,29 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 证书
+	 */
+	this.useCert = (this.backend.cert != null);
+	if (this.backend.cert != null) {
+		this.certId = this.backend.cert.id;
+		this.certServerName = this.backend.cert.serverName;
+	} else {
+		this.certId = "";
+		this.certServerName = "";
+	}
+	this.certVisible = false;
+
+	this.$delay(function () {
+		this.$watch("useCert", function () {
+			this.certVisible = true;
+		});
+	});
+
+	this.showCert = function () {
+		this.certVisible = !this.certVisible;
+	};
+
+	/**
 	 * 地址
 	 */
 	this.changeAddress = function () {
@@ -32,6 +55,19 @@ Tea.context(function () {
 		var index = this.backend.address.indexOf("/");
 		if (index > -1) {
 			this.backend.address = this.backend.address.substring(0, index);
+		}
+	};
+
+	/**
+	 * 主机名
+	 */
+	this.hostError = "";
+	this.changeHost = function () {
+		var host = this.backend.host.trim().replace(/[a-zA-Z0-9-\\.]/g, "");
+		if (host.length > 0) {
+			this.hostError = "主机名中含有特殊字符“" + host + "”，可能会导致后端服务器无法解析。";
+		} else {
+			this.hostError = "";
 		}
 	};
 
@@ -154,4 +190,9 @@ Tea.context(function () {
 		this.responseHeadersAddingName = this.responseHeaders[index].name;
 		this.responseHeadersAddingValue = this.responseHeaders[index].value;
 	};
+
+	/**
+	 * 健康检查URL
+	 */
+	this.checkOn = this.backend.checkOn;
 });

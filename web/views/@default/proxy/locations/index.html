@@ -20,8 +20,8 @@
     {$template "/proxy/menu"}
 
 	<div class="second-menu">
-		<div class="ui text menu blue small">
-			<a :href="'/proxy/locations?serverId=' + server.id" class="ui item active">所有路径规则</a>
+		<div class="ui text menu blue tiny">
+			<a :href="'/proxy/locations?serverId=' + server.id" class="ui item active">所有路径规则({{server.locations.length}})</a>
 			<span class="item">|</span>
 			<a :href="'/proxy/locations/add?serverId=' + server.id"  class="ui item">添加新路径规则</a>
 			<span class="item">|</span>
@@ -30,6 +30,7 @@
 		<div class="ui divider"></div>
 	</div>
 
+	<p class="comment">可以利用路径规则对一些特殊的URL进行设置。</p>
     <p class="comment" v-if="locations.length == 0">暂时还没有路径规则配置。</p>
 
     <table class="ui table selectable" v-if="locations.length > 0" id="locations-table">
@@ -47,7 +48,7 @@
                     <span style="line-height:2">{{location.pattern}}</span><br/>
 					<p style="font-size:0.9em;color:grey" v-if="location.name.length > 0">{{location.name}}</p>
                     <span class="ui label tiny olive">{{location.patternTypeName}}</span>
-                    <span class="ui label tiny" v-if="!location.on">未启用</span>
+                    <span class="ui label tiny red" v-if="!location.on">未启用</span>
                     <span class="ui label tiny" v-if="location.isCaseInsensitive">不区分大小写</span>
                     <span class="ui label tiny" v-if="location.isReverse">反向匹配</span>
                     <span class="ui label tiny" v-if="location.root.length > 0">root</span>

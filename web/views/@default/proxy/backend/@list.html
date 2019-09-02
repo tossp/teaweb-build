@@ -19,7 +19,9 @@
 	<a :href="'/proxy/groups?serverId=' + server.id + '&locationId=' + location.id + '&websocket=' + inWebsocketPage" class="item">分组管理</a>
 	<a :href="'/proxy/groups/add?serverId=' + server.id + '&locationId=' + location.id + '&websocket=' + inWebsocketPage" class="item">添加分组</a>
 </div>
-<div class="ui divider" style="margin-bottom:1em!important;"></div>
+<div class="ui divider" style="margin-bottom:0.5em!important;"></div>
+
+<p class="comment" style="padding-top:0;margin-top:0">这里可以管理一些实际处理用户请求的后端服务器。</p>
 
 <div class="ui menu tabular attached group-menu small">
 	<a class="item" v-for="group in groups" @click.prevent="selectGroup(group.id)" :class="{active:selectedGroupId == group.id}" v-if="group.isDefault || group.count > 0">{{group.name}}<span v-if="group.count > 0" style="font-size: 0.9em;">({{group.count}})</span></a>
@@ -50,14 +52,14 @@
 					<span class="ui label tiny">{{backend.requestURI}}</span>
 				   </p>
 				   <span class="ui label tiny green" v-if="backend.on">启用</span>
-				   <span class="ui label tiny grey" v-if="!backend.on">停用</span>
+				   <span class="ui label tiny red" v-if="!backend.on">停用</span>
 
 				   <span class="ui label tiny green" v-if="!backend.isDown">上线中</span>
 				   <span class="ui label tiny red" v-if="backend.isDown">下线于{{backend.downTime}}</span>
 
 				   <span class="ui label tiny" v-if="backend.scheme.length > 0">{{backend.scheme}}</span>
 				   <span class="ui label tiny" v-if="backend.host.length > 0">host</span>
-				   <span class="ui label tiny" v-if="backend.checkURL.length > 0">健康检查</span>
+				   <span class="ui label tiny" v-if="backend.checkOn">健康检查</span>
 				   <br/>
 				   <a href="" class="small" v-if="backend.isDown" @click.prevent="putOnline(backend)">[重新上线]</a> </td>
 			   <td>{{backend.weight}}</td>
@@ -111,7 +113,7 @@
 
 				<span class="ui label tiny" v-if="backend.scheme.length > 0">{{backend.scheme}}</span>
 				<span class="ui label tiny" v-if="backend.host.length > 0">host</span>
-				<span class="ui label tiny" v-if="backend.checkURL.length > 0">健康检查</span>
+				<span class="ui label tiny" v-if="backend.checkOn">健康检查</span>
 				<br/>
 				<a href="" class="small" v-if="backend.isDown" @click.prevent="putOnline(backend)">[重新上线]</a> </td>
 			<td>{{backend.weight}}</td>

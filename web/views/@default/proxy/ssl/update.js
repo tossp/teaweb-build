@@ -38,7 +38,8 @@ Tea.context(function () {
 			"description": "",
 			"certFile": "",
 			"keyFile": "",
-			"isLocal": false
+			"isLocal": false,
+			"isShared": true
 		});
 		this.certIndex = this.certs.length - 1;
 		this.$delay(function () {
@@ -276,5 +277,44 @@ Tea.context(function () {
 	this.removeHstsDomain = function (index) {
 		this.cancelHstsDomainAdding();
 		this.hsts.domains.$remove(index);
+	};
+
+	/**
+	 * CA证书
+	 */
+	this.caCertsVisible = false;
+
+	this.showCACerts = function () {
+		this.caCertsVisible = !this.caCertsVisible;
+	};
+
+	var that = this;
+	this.selectedCACerts = this.caCerts.$filter(function (k, v) {
+		v.isSelected = that.clientCACertIds.$contains(v.id);
+		return v.isSelected;
+	});
+	this.leftCACerts = this.caCerts.$filter(function (k, v) {
+		v.isSelected = that.clientCACertIds.$contains(v.id);
+		return !v.isSelected;
+	});
+
+	this.selectCACert = function (cert) {
+		cert.isSelected = true;
+		this.selectedCACerts = this.caCerts.$findAll(function (k, v) {
+			return v.isSelected;
+		});
+		this.leftCACerts = this.caCerts.$findAll(function (k, v) {
+			return !v.isSelected;
+		});
+	};
+
+	this.removeSelectedCACert = function (cert) {
+		cert.isSelected = false;
+		this.selectedCACerts = this.caCerts.$findAll(function (k, v) {
+			return v.isSelected;
+		});
+		this.leftCACerts = this.caCerts.$findAll(function (k, v) {
+			return !v.isSelected;
+		});
 	};
 });

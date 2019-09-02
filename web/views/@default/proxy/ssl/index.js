@@ -62,7 +62,7 @@ Tea.context(function () {
 
 	this.uploadSSLKeyFile = function () {
 		if (this.sslKeyFile == null) {
-			alert("请先选择密钥文件");
+			alert("请先选择私钥文件");
 			return;
 		}
 
@@ -113,4 +113,19 @@ Tea.context(function () {
 	 * 证书
 	 */
 	this.certIndex = 0;
+
+	this.makeShared = function (certId) {
+		if (!window.confirm("添加到SSL证书管理后，别的代理服务也可以使用这些证书")) {
+			return;
+		}
+		this.$post(".makeShared")
+			.params({
+				"serverId": this.server.id,
+				"certId": certId
+			})
+			.success(function () {
+				alert("添加成功");
+				window.location.reload();
+			});
+	};
 });

@@ -160,7 +160,7 @@
 			</tbody>
 			<tbody v-show="advancedOptionsVisible">
 				<tr>
-					<td>访问日志</td>
+					<td class="color-border">访问日志</td>
 					<td>
 						<div class="ui checkbox">
 							<input type="checkbox" name="accessLogIsInherited" v-model="accessLogIsInherited" value="1"/>
@@ -172,7 +172,7 @@
 			</tbody>
 			<tbody v-show="advancedOptionsVisible && !accessLogIsInherited" v-for="(accessLog, index) in accessLogs">
 				<tr>
-					<td>是否开启访问日志存储</td>
+					<td class="color-border">是否开启访问日志存储</td>
 					<td>
 						<input type="hidden" name="accessLogIndexes" :value="index"/>
 						<input type="hidden" :name="'accessLog' + index + 'Id'" :value="accessLog.id"/>
@@ -184,7 +184,7 @@
 					</td>
 				</tr>
 				<tr v-show="accessLog.on">
-					<td>要存储的访问日志字段</td>
+					<td class="color-border">要存储的访问日志字段</td>
 					<td>
 						<div class="ui checkbox" v-for="field in accessLog.fields"  style="width:11em;padding:0.4em">
 							<input type="checkbox" :name="'accessLog' + index + 'Fields'" :value="field.code" :id="'access-log-' + index + '-field-' + field.code" v-model="field.isChecked"/>
@@ -193,7 +193,7 @@
 					</td>
 				</tr>
 				<tr v-show="accessLog.on">
-					<td>要存储的访问日志状态码</td>
+					<td class="color-border">要存储的访问日志状态码</td>
 					<td>
 						<div class="ui checkbox" style="width:5em;padding:0.4em">
 							<input type="checkbox" :name="'accessLog' + index + 'Status1'" v-model="accessLog.status1" value="1" :id="'access-log-' + index + '-status1'"/>
@@ -218,7 +218,7 @@
 					</td>
 				</tr>
 				<tr v-if="accessLog.on && accessLog.storagePolicies.length > 0">
-					<td>选择输出的日志策略</td>
+					<td class="color-border">选择输出的日志策略</td>
 					<td>
 						<div class="ui checkbox" v-for="policy in accessLog.storagePolicies" style="width:13em;padding:0.4em">
 							<input type="checkbox" :name="'accessLog' + index + 'StoragePolicyIds'" :value="policy.id" :id="'access-log-storage-policy-' + policy.id" v-model="policy.isChecked"/>
@@ -227,7 +227,7 @@
 					</td>
 				</tr>
 				<tr v-if="accessLog.on && accessLog.storagePolicies.length > 0">
-					<td>是否只输出到日志策略</td>
+					<td class="color-border">是否只输出到日志策略</td>
 					<td>
 						<div class="ui checkbox">
 							<input type="checkbox" :name="'accessLog' + index + 'StorageOnly'" v-model="accessLog.storageOnly" value="1"/>
@@ -248,7 +248,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Gzip压缩级别</td>
+					<td class="color-border">Gzip压缩级别</td>
 					<td>
 						<select name="gzipLevel" v-model="location.gzipLevel" class="ui dropdown" style="width:10em">
 							<option value="-1">不设置</option>
@@ -259,7 +259,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>Gzip内容最小长度</td>
+					<td class="color-border">Gzip内容最小长度</td>
 					<td>
 						<div class="ui fields inline">
 							<div class="ui field">
@@ -272,6 +272,47 @@
 							</div>
 						</div>
 						<p class="comment">0表示不限制，内容长度从文件尺寸或Content-Length中获取。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>特殊页面</td>
+					<td>
+					<span class="ui label tiny" v-for="(page, arrayIndex) in location.pages" :class="{blue:arrayIndex == editingPageIndex}" style="margin-top:0.2em;margin-bottom:0.2em">{{page.status}} -&gt; {{page.url}}
+					<input type="hidden" name="pageStatus" :value="page.status"/>
+					<input type="hidden" name="pageURL" :value="page.url"/>	&nbsp;
+					<a href="" @click.prevent="editPage(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
+					<a href="" @click.prevent="removePage(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+				</span>
+						<div class="ui fields inline" v-if="pageAdding" style="margin-top:0.8em">
+							<div class="ui field">
+								<input type="text" name="addingPageStatus" maxlength="3" placeholder="状态码" @keyup.enter="confirmAddPage()" @keypress.enter.prevent="1" v-model="addingPage.status" size="5" />
+							</div>
+							<div class="ui field">
+								<input type="text" name="addingPageURL" maxlength="200" placeholder="页面文件路径或一个完整URL" size="25" @keyup.enter="confirmAddPage()" @keypress.enter.prevent="1" v-model="addingPage.url"/>
+							</div>
+							<div class="ui field">
+								<button class="ui button tiny" type="button" @click="confirmAddPage()">确定</button>
+								&nbsp; <a href="" @click.prevent="cancelPageAdding()">取消</a>
+							</div>
+						</div>
+						<div class="ui field" style="margin-top: 1em">
+							<button class="ui button tiny" type="button" @click="addPage()">+</button>
+						</div>
+						<p class="comment">根据状态码返回一些特殊页面，比如404，500等错误页面。状态码支持50x类似的通配符；页面文件是相对于TeaWeb目录的页面文件比如errors/40x.html，或者一个完整的URL。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>临时关闭页面</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="shutdownPageOn" id="shutdownPageOn" v-model="location.shutdownPageOn"/>
+							<label for="shutdownPageOn">是否开启</label>
+						</div>
+						<div class="ui field" style="margin-top:0.4em" v-show="location.shutdownPageOn">
+							<input type="text" name="shutdownPage" v-model="location.shutdownPage" placeholder="页面文件路径或一个完整URL" maxlength="100" style="width:30em"/>
+						</div>
+
+						<p class="comment">开启临时关闭页面时，所有请求的响应都会显示此页面。可用于临时升级网站使用。页面文件是相对于TeaWeb目录的页面文件比如errors/40x.html，或者一个完整的URL。</p>
 					</td>
 				</tr>
 				<tr>

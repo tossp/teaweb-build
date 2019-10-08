@@ -11,12 +11,12 @@ script:
   #  - go vet ./...
   #  - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
   #  - go test -v -tags=integration -run=^$ ./test/integration # Check that integration test builds successfully, but don't run any of the tests (they hit live GitHub API).
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o core -ldflags '-s -w' misc/exe/teaweb/main.go ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o agent -ldflags '-s -w' misc/exe/pluginsAgent/main.go ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o core-agent -ldflags '-s -w' misc/exe/agent/main.go ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o agentinstaller -ldflags '-s -w' misc/exe/agentinstaller/main.go ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o service_install -ldflags '-s -w' misc/exe/service_install/main.go ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -v -o service_uninstall -ldflags '-s -w' misc/exe/service_uninstall/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -o core -ldflags '-s -w' misc/exe/teaweb/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -o agent -ldflags '-s -w' misc/exe/pluginsAgent/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -o core-agent -ldflags '-s -w' misc/exe/agent/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -o agentinstaller -ldflags '-s -w' misc/exe/agentinstaller/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -o service_install -ldflags '-s -w' misc/exe/service_install/main.go ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -o service_uninstall -ldflags '-s -w' misc/exe/service_uninstall/main.go ; fi
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

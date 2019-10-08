@@ -33,91 +33,91 @@ before_deploy:
   - cp -R configs/widgets releases/web/libs/
   - mkdir releases/web/tmp
   - touch releases/web/tmp/.keep
-  - GOOS=windows GOARCH=amd64 go build -v -o releases/upgrades/windows/amd64/teaweb-agent.exe -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=windows GOARCH=386 go build -v -o releases/upgrades/windows/386/teaweb-agent.exe -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=darwin GOARCH=amd64 go build -v -o releases/upgrades/darwin/amd64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=darwin GOARCH=386 go build -v -o releases/upgrades/darwin/386/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=amd64 go build -v -o releases/upgrades/linux/amd64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=386 go build -v -o releases/upgrades/linux/386/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=arm64 go build -v -o releases/upgrades/linux/arm64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=arm go build -v -o releases/upgrades/linux/arm/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=mips64 go build -v -o releases/upgrades/linux/mips64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=mips64le go build -v -o releases/upgrades/linux/mips64le/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=mips GOMIPS=softfloat go build -v -o releases/upgrades/linux/mips/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -v -o releases/upgrades/linux/mipsle/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=freebsd GOARCH=386 go build -v -o releases/upgrades/freebsd/386/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
-  - GOOS=freebsd GOARCH=amd64 go build -v -o releases/upgrades/freebsd/amd64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=windows GOARCH=amd64 go build -o releases/upgrades/windows/amd64/teaweb-agent.exe -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=windows GOARCH=386 go build -o releases/upgrades/windows/386/teaweb-agent.exe -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=darwin GOARCH=amd64 go build -o releases/upgrades/darwin/amd64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=darwin GOARCH=386 go build -o releases/upgrades/darwin/386/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=amd64 go build -o releases/upgrades/linux/amd64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=386 go build -o releases/upgrades/linux/386/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=arm64 go build -o releases/upgrades/linux/arm64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=arm go build -o releases/upgrades/linux/arm/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=mips64 go build -o releases/upgrades/linux/mips64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=mips64le go build -o releases/upgrades/linux/mips64le/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=mips GOMIPS=softfloat go build -o releases/upgrades/linux/mips/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -o releases/upgrades/linux/mipsle/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=freebsd GOARCH=386 go build -o releases/upgrades/freebsd/386/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
+  - GOOS=freebsd GOARCH=amd64 go build -o releases/upgrades/freebsd/amd64/teaweb-agent -ldflags '-s -w' misc/exe/agent/main.go
   - chmod -R 755 releases/upgrades
-  - GOOS=windows GOARCH=amd64 go build -v -o releases/installers/agentinstaller_windows_amd64.exe -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=windows GOARCH=386 go build -v -o releases/installers/agentinstaller_windows_386.exe -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=darwin GOARCH=amd64 go build -v -o releases/installers/agentinstaller_darwin_amd64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=darwin GOARCH=386 go build -v -o releases/installers/agentinstaller_darwin_386 -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=amd64 go build -v -o releases/installers/agentinstaller_linux_amd64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=386 go build -v -o releases/installers/agentinstaller_linux_386 -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=arm64 go build -v -o releases/installers/agentinstaller_linux_arm64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=arm go build -v -o releases/installers/agentinstaller_linux_arm -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=mips64 go build -v -o releases/installers/agentinstaller_linux_mips64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=mips64le go build -v -o releases/installers/agentinstaller_linux_mips64le -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=mips GOMIPS=softfloat go build -v -o releases/installers/agentinstaller_linux_mips -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -v -o releases/installers/agentinstaller_linux_mipsle -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=freebsd GOARCH=386 go build -v -o releases/installers/agentinstaller_linux_386 -ldflags '-s -w' misc/exe/agentinstaller/main.go
-  - GOOS=freebsd GOARCH=amd64 go build -v -o releases/installers/agentinstaller_linux_amd64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=windows GOARCH=amd64 go build -o releases/installers/agentinstaller_windows_amd64.exe -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=windows GOARCH=386 go build -o releases/installers/agentinstaller_windows_386.exe -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=darwin GOARCH=amd64 go build -o releases/installers/agentinstaller_darwin_amd64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=darwin GOARCH=386 go build -o releases/installers/agentinstaller_darwin_386 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=amd64 go build -o releases/installers/agentinstaller_linux_amd64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=386 go build -o releases/installers/agentinstaller_linux_386 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=arm64 go build -o releases/installers/agentinstaller_linux_arm64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=arm go build -o releases/installers/agentinstaller_linux_arm -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=mips64 go build -o releases/installers/agentinstaller_linux_mips64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=mips64le go build -o releases/installers/agentinstaller_linux_mips64le -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=mips GOMIPS=softfloat go build -o releases/installers/agentinstaller_linux_mips -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -o releases/installers/agentinstaller_linux_mipsle -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=freebsd GOARCH=386 go build -o releases/installers/agentinstaller_linux_386 -ldflags '-s -w' misc/exe/agentinstaller/main.go
+  - GOOS=freebsd GOARCH=amd64 go build -o releases/installers/agentinstaller_linux_amd64 -ldflags '-s -w' misc/exe/agentinstaller/main.go
   - chmod -R 755 releases/installers
-  - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/service_install.exe -ldflags '-s -w' misc/exe/service_install/main.go
-  - GOOS=windows GOARCH=amd64 go build -v -o releases/bin/service_uninstall.exe -ldflags '-s -w' misc/exe/service_uninstall/main.go
-  - GOOS=windows GOARCH=amd64 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=windows GOARCH=amd64 go build -o releases/bin/teaweb.exe -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=windows GOARCH=amd64 go build -o releases/bin/service_install.exe -ldflags '-s -w' misc/exe/service_install/main.go
+  - GOOS=windows GOARCH=amd64 go build -o releases/bin/service_uninstall.exe -ldflags '-s -w' misc/exe/service_uninstall/main.go
+  - GOOS=windows GOARCH=amd64 go build -o releases/plugins/agent.tea.exe -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-windows-amd64.zip releases/
-  - GOOS=windows GOARCH=386 go build -v -o releases/bin/teaweb.exe -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=windows GOARCH=386 go build -v -o releases/bin/service_install.exe -ldflags '-s -w' misc/exe/service_install/main.go
-  - GOOS=windows GOARCH=386 go build -v -o releases/bin/service_uninstall.exe -ldflags '-s -w' misc/exe/service_uninstall/main.go
-  - GOOS=windows GOARCH=386 go build -v -o releases/plugins/agent.tea.exe -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=windows GOARCH=386 go build -o releases/bin/teaweb.exe -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=windows GOARCH=386 go build -o releases/bin/service_install.exe -ldflags '-s -w' misc/exe/service_install/main.go
+  - GOOS=windows GOARCH=386 go build -o releases/bin/service_uninstall.exe -ldflags '-s -w' misc/exe/service_uninstall/main.go
+  - GOOS=windows GOARCH=386 go build -o releases/plugins/agent.tea.exe -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-windows-386.zip releases/
   - rm releases/bin/teaweb.exe
   - rm releases/bin/service_install.exe
   - rm releases/bin/service_uninstall.exe
   - rm releases/plugins/agent.tea.exe
-  - GOOS=darwin GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=darwin GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=darwin GOARCH=amd64 go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=darwin GOARCH=amd64 go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - chmod 755 releases/plugins/agent.tea
   - chmod 755 releases/bin/teaweb
   - zip -9qr teaweb-darwin-amd64.zip releases/
-  - GOOS=darwin GOARCH=386 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=darwin GOARCH=386 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=darwin GOARCH=386 go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=darwin GOARCH=386 go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-darwin-386.zip releases/
-  - GOOS=freebsd GOARCH=386 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=freebsd GOARCH=386 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=freebsd GOARCH=386 go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=freebsd GOARCH=386 go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-freebsd-386.zip releases/
-  - GOOS=freebsd GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=freebsd GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=freebsd GOARCH=amd64 go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=freebsd GOARCH=amd64 go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-freebsd-amd64.zip releases/
-  - GOOS=linux GOARCH=mips64 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=mips64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=mips64 go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=mips64 go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-mips64.zip releases/
-  - GOOS=linux GOARCH=mips64le go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=mips64le go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=mips64le go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=mips64le go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-mips64le.zip releases/
-  - GOOS=linux GOARCH=mips GOMIPS=softfloat go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=mips GOMIPS=softfloat go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=mips GOMIPS=softfloat go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=mips GOMIPS=softfloat go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-mips.zip releases/
-  - GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-mipsle.zip releases/
-  - GOOS=linux GOARCH=arm go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=arm go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=arm go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=arm go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-arm.zip releases/
-  - GOOS=linux GOARCH=arm64 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=arm64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=arm64 go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=arm64 go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-arm64.zip releases/
-  - GOOS=linux GOARCH=386 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=386 go build -v -o releases/bin/service_install -ldflags '-s -w' misc/exe/service_install/main.go
-  - GOOS=linux GOARCH=386 go build -v -o releases/bin/service_uninstall -ldflags '-s -w' misc/exe/service_uninstall/main.go
-  - GOOS=linux GOARCH=386 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=386 go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=386 go build -o releases/bin/service_install -ldflags '-s -w' misc/exe/service_install/main.go
+  - GOOS=linux GOARCH=386 go build -o releases/bin/service_uninstall -ldflags '-s -w' misc/exe/service_uninstall/main.go
+  - GOOS=linux GOARCH=386 go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9qr teaweb-linux-386.zip releases/
-  - GOOS=linux GOARCH=amd64 go build -v -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
-  - GOOS=linux GOARCH=amd64 go build -v -o releases/bin/service_install -ldflags '-s -w' misc/exe/service_install/main.go
-  - GOOS=linux GOARCH=amd64 go build -v -o releases/bin/service_uninstall -ldflags '-s -w' misc/exe/service_uninstall/main.go
-  - GOOS=linux GOARCH=amd64 go build -v -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
+  - GOOS=linux GOARCH=amd64 go build -o releases/bin/teaweb -ldflags '-s -w' misc/exe/teaweb/main.go
+  - GOOS=linux GOARCH=amd64 go build -o releases/bin/service_install -ldflags '-s -w' misc/exe/service_install/main.go
+  - GOOS=linux GOARCH=amd64 go build -o releases/bin/service_uninstall -ldflags '-s -w' misc/exe/service_uninstall/main.go
+  - GOOS=linux GOARCH=amd64 go build -o releases/plugins/agent.tea -ldflags '-s -w' misc/exe/pluginsAgent/main.go
   - zip -9r teaweb-linux-amd64.zip releases/
   - sed -i "s/CI_TAG/${TRAVIS_TAG}/g" Dockerfile
   - rm releases/bin/service_install

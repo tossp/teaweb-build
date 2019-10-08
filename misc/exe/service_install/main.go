@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/TeaWeb/code/teautils"
-	"github.com/iwind/TeaGo/Tea"
 	"log"
 	"runtime"
+
+	"github.com/TeaWeb/code/teautils"
+	"github.com/iwind/TeaGo/Tea"
 )
 
 // 安装服务

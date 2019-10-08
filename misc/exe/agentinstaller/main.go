@@ -3,9 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+
 	"github.com/TeaWeb/agentinstaller"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	stringutil "github.com/iwind/TeaGo/utils/string"
 )
 
 // agentinstaller -id=ID -key=KEY -master=http://xxxx:7777 -dir=xxx

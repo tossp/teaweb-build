@@ -1,13 +1,17 @@
 {$layout}
 
-<div class="ui menu text basic blue small">
-	<a href="/settings/mongo" class="item active">连接设置</a>
-	<a href="/settings/mongo/data" class="item">数据清理</a>
+<div v-if="action != 'switchType'">
+	<div class="ui menu text basic blue small">
+		<a href="/settings/mongo" class="item active">连接设置</a>
+		<a href="/settings/mongo/data" class="item">数据清理</a>
+	</div>
+	<div class="ui divider"></div>
 </div>
-<div class="ui divider"></div>
 
 <div>
     <h3>MongoDB连接设置 <a href="https://docs.mongodb.com/manual/reference/connection-string/" target="_blank">MongoDB官方说明文档</a> </h3>
+
+	<p class="ui message warning" v-if="typeIsChanged">在不同类型的数据库之间切换需要重启TeaWeb服务。</p>
 
     <form class="ui form" data-tea-action=".update">
         <table class="ui table definition selectable">
@@ -24,11 +28,17 @@
                     <input type="text" name="port" v-model="config.port"/>
                 </td>
             </tr>
+			<tr>
+				<td>数据库名</td>
+				<td>
+					<input type="text" name="dbName" v-model="config.dbName"/>
+				</td>
+			</tr>
             <tr>
                 <td>开启认证</td>
 				<td>
 					<div class="ui checkbox">
-						<input type="checkbox" name="" v-model="authUpdating" />
+						<input type="checkbox" name="authEnabled" value="1" v-model="config.authEnabled" />
 						<label></label>
 					</div>
 					<p class="comment">
@@ -36,7 +46,7 @@
 					</p>
 				</td>
             </tr>
-			<tbody v-if="authUpdating">
+			<tbody v-if="config.authEnabled">
 				<tr>
 					<td>用户名<em>（username）</em></td>
 					<td>
@@ -53,7 +63,7 @@
 				<tr>
 					<td>认证机制<em>（Auth Mechanism）</em></td>
 					<td>
-						<select class="ui dropdown" name="authMechanism" v-model="config.authMechanism" style="width:10em">
+						<select class="ui dropdown" name="authMechanism" v-model="config.authMechanism" style="width:11em">
 
 							<option value="SCRAM-SHA-1">SCRAM-SHA-1</option>
 							<option value="SCRAM-SHA-256">SCRAM-SHA-256</option>

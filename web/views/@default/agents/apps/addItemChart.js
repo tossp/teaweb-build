@@ -86,21 +86,76 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 饼图
+	 */
+	this.pieParam = {
+		"varName": "${0}",
+		"key": ""
+	};
+
+	/**
 	 * 线图
 	 */
-	this.lineLimit = 60;
+	this.colors = [
+		{
+			"name": "白色",
+			"value": "WHITE"
+		},
+		{
+			"name": "红色",
+			"value": "RED"
+		},
+		{
+			"name": "蓝色",
+			"value": "BLUE"
+		},
+		{
+			"name": "绿色",
+			"value": "GREEN"
+		},
+		{
+			"name": "黄色",
+			"value": "YELLOW"
+		},
+		{
+			"name": "棕色",
+			"value": "BROWN"
+		},
+		{
+			"name": "粉红",
+			"value": "PINK"
+		}
+	];
 	this.lineParams = [{
-		"varName": "${0}"
+		"varName": "${0}",
+		"isFilled": 1,
+		"color": "",
+		"key": "",
+		"moreVisible": false
 	}];
 
 	this.addLine = function () {
 		this.lineParams.push({
-			"varName": "${" + this.lineParams.length + "}"
+			"varName": "${" + this.lineParams.length + "}",
+			"isFilled": 0,
+			"color": "",
+			"key": "",
+			"moreVisible": false
 		});
 	};
 
 	this.removeLine = function (index) {
 		this.lineParams.$remove(index);
+	};
+
+	this.changeValueKey = function (param) {
+		if (param.key.length > 0) {
+			param.varName = "${" + param.key + "}";
+		}
+	};
+
+	this.showMoreParamOptions = function (param) {
+		param.moreVisible = !param.moreVisible;
 	};
 
 	/**

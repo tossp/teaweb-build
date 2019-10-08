@@ -161,7 +161,7 @@
 			<tr v-show="accessLog.on">
 				<td class="color-border">要存储的访问日志字段</td>
 				<td>
-					<div class="ui checkbox" v-for="field in accessLog.fields"  style="width:11em;padding:0.4em">
+					<div class="ui checkbox" v-for="field in accessLog.fields"  style="width:11em;padding:0.4em 0.4em 0.4em 0">
 						<input type="checkbox" :name="'accessLog' + index + 'Fields'" :value="field.code" :id="'access-log-' + index + '-field-' + field.code" v-model="field.isChecked"/>
 						<label :for="'access-log-' + index + '-field-' + field.code">{{field.name}}</label>
 					</div>
@@ -170,7 +170,7 @@
 			<tr v-show="accessLog.on">
 				<td class="color-border">要存储的访问日志状态码</td>
 				<td>
-					<div class="ui checkbox" style="width:5em;padding:0.4em">
+					<div class="ui checkbox" style="width:5em;padding:0.4em 0.4em 0.4em 0">
 						<input type="checkbox" :name="'accessLog' + index + 'Status1'" v-model="accessLog.status1" value="1" :id="'access-log-' + index + '-status1'"/>
 						<label :for="'access-log-' + index + '-status1'">1xx</label>
 					</div>
@@ -195,7 +195,7 @@
 			<tr v-if="accessLog.on && accessLog.storagePolicies.length > 0">
 				<td class="color-border">选择输出的日志策略</td>
 				<td>
-					<div class="ui checkbox" v-for="policy in accessLog.storagePolicies" style="width:13em;padding:0.4em">
+					<div class="ui checkbox" v-for="policy in accessLog.storagePolicies" style="width:13em;padding:0.4em 0.4em 0.4em 0">
 						<input type="checkbox" :name="'accessLog' + index + 'StoragePolicyIds'" :value="policy.id" :id="'access-log-storage-policy-' + policy.id" v-model="policy.isChecked"/>
 						<label :for="'access-log-storage-policy-' + policy.id">{{policy.name}}<em style="font-size:0.8em;color:grey">（{{policy.type}}）</em></label>
 					</div>
@@ -235,19 +235,19 @@
 			<tr>
 				<td class="color-border">Gzip压缩级别</td>
 				<td>
-					<select name="gzipLevel" v-model="server.gzipLevel" class="ui dropdown" style="width:10em">
+					<select name="gzipLevel" v-model="server.gzip.level" class="ui dropdown" style="width:10em">
 						<option value="0">不压缩</option>
 						<option v-for="level in gzipLevels" :value="level">{{level}}</option>
 					</select>
 					<p class="ui comment">级别越高，压缩比例越大</p>
 				</td>
 			</tr>
-			<tr>
+			<tr v-if="server.gzip.level > 0">
 				<td class="color-border">Gzip内容最小长度</td>
 				<td>
 					<div class="ui fields inline">
 						<div class="ui field">
-							<input type="text" name="gzipMinLength" size="8" v-model="server.gzipMinLength"/>
+							<input type="text" name="gzipMinLength" size="8" v-model="server.gzip.minLength"/>
 						</div>
 						<div class="ui field">
 							<select class="ui dropdown" name="gzipMinUnit" v-model="gzipMinUnit">
@@ -258,45 +258,23 @@
 					<p class="comment">0表示不限制，内容长度从文件尺寸或Content-Length中获取。</p>
 				</td>
 			</tr>
+			<tr v-if="server.gzip.level > 0">
+				<td class="color-border">Gzip文件MimeType</td>
+				<td>
+					<single-value-list prefix="gzipMimeType" :values="server.gzip.mimeTypes" value-name="类型"></single-value-list>
+					<p class="comment">默认为text/html, application/json，支持类似于text/*的类型</p>
+				</td>
+			</tr>
 			<tr>
 				<td>特殊页面</td>
 				<td>
-					<span class="ui label tiny" v-for="(page, arrayIndex) in server.pages" :class="{blue:arrayIndex == editingPageIndex}" style="margin-top:0.2em;margin-bottom:0.2em">{{page.status}} -&gt; {{page.url}}
-					<input type="hidden" name="pageStatus" :value="page.status"/>
-					<input type="hidden" name="pageURL" :value="page.url"/>	&nbsp;
-					<a href="" @click.prevent="editPage(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
-					<a href="" @click.prevent="removePage(arrayIndex)" title="删除"><i class="icon remove"></i></a>
-				</span>
-					<div class="ui fields inline" v-if="pageAdding" style="margin-top:0.8em">
-						<div class="ui field">
-							<input type="text" name="addingPageStatus" maxlength="3" placeholder="状态码" @keyup.enter="confirmAddPage()" @keypress.enter.prevent="1" v-model="addingPage.status" size="5" />
-						</div>
-						<div class="ui field">
-							<input type="text" name="addingPageURL" maxlength="200" placeholder="页面文件路径或一个完整URL" size="25" @keyup.enter="confirmAddPage()" @keypress.enter.prevent="1" v-model="addingPage.url"/>
-						</div>
-						<div class="ui field">
-							<button class="ui button tiny" type="button" @click="confirmAddPage()">确定</button>
-							&nbsp; <a href="" @click.prevent="cancelPageAdding()">取消</a>
-						</div>
-					</div>
-					<div class="ui field" style="margin-top: 1em">
-						<button class="ui button tiny" type="button" @click="addPage()">+</button>
-					</div>
-					<p class="comment">根据状态码返回一些特殊页面，比如404，500等错误页面。状态码支持50x类似的通配符；页面文件是相对于TeaWeb目录的页面文件比如errors/40x.html，或者一个完整的URL。</p>
+					<server-page-box :pages="server.pages" comment="根据响应状态码返回一些特殊页面，比如404，500等错误页面。" prefix="page"></server-page-box>
 				</td>
 			</tr>
 			<tr>
 				<td>临时关闭页面</td>
 				<td>
-					<div class="ui checkbox">
-						<input type="checkbox" name="shutdownPageOn" id="shutdownPageOn" v-model="server.shutdownPageOn"/>
-						<label for="shutdownPageOn">是否开启</label>
-					</div>
-					<div class="ui field" style="margin-top:0.4em" v-show="server.shutdownPageOn">
-						<input type="text" name="shutdownPage" v-model="server.shutdownPage" placeholder="页面文件路径或一个完整URL" maxlength="100" style="width:30em"/>
-					</div>
-
-					<p class="comment">开启临时关闭页面时，所有请求的响应都会显示此页面。可用于临时升级网站使用。页面文件是相对于TeaWeb目录的页面文件比如errors/40x.html，或者一个完整的URL。</p>
+					<server-shutdown-box :shutdown="server.shutdown" prefix="shutdownPage"></server-shutdown-box>
 				</td>
 			</tr>
 			<tr>
@@ -307,6 +285,28 @@
 						<label></label>
 					</div>
 					<p class="comment">开启后，所有HTTP的请求都会自动跳转到对应的HTTPS URL上。</p>
+				</td>
+			</tr>
+		</tbody>
+
+		<tr>
+			<td colspan="2">
+				<a href="" style="font-weight: normal;" @click.prevent="showNotice()">通知设置<i class="icon angle" :class="{down:!noticeVisible, up:noticeVisible}"></i> </a>
+			</td>
+		</tr>
+		<tbody v-show="noticeVisible">
+			<tr>
+				<td>后端服务器自动下线</td>
+				<td>
+					<notice-item name="backendDown" :item="noticeItems.backendDown"></notice-item>
+					<p class="comment">如果后端服务器因为错误过多而自动下线，则发送通知。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>后端服务器自动上线</td>
+				<td>
+					<notice-item name="backendUp" :item="noticeItems.backendUp"></notice-item>
+					<p class="comment">如果后端服务器因为手动或者其他原因而自动上线，则发送通知。</p>
 				</td>
 			</tr>
 		</tbody>

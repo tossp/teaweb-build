@@ -173,6 +173,11 @@ values.Query = function () {
 			.execute();
 	};
 
+	this.find = function () {
+		return this.action("find")
+			.execute();
+	};
+
 	this.latest = function (size) {
 		if (typeof (size) == "undefined") {
 			size = 10;
@@ -194,8 +199,12 @@ values.Query = function () {
  * 获取参数值
  */
 values.valueOf = function (value, param) {
-	var v = param.replace(/(\${[\w\\.]+})/, function (match) {
-		var varName = match.substring(2, match.length - 1);
+	if (value == null) {
+		return "";
+	}
+	var v = param.replace(/(\${[\w\\.\s]+})/, function (match) {
+		var varName = match.substring(2, match.length - 1)
+			.replace(/\s+/g, "");
 		if (value instanceof Array) {
 			var index = parseInt(varName, 10);
 			if (index < 0 || index >= value.length) {
@@ -211,7 +220,7 @@ values.valueOf = function (value, param) {
 					var lastObject = value;
 					for (var i = 0; i < pieces.length; i++) {
 						var piece = pieces[i];
-						if (lastObject != null && typeof (lastObject[piece]) != "undefined") {
+						if (lastObject != null && typeof (lastObject) == "object" && typeof (lastObject[piece]) != "undefined") {
 							lastObject = lastObject[piece];
 
 							if (i == pieces.length - 1) {

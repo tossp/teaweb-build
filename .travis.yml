@@ -148,7 +148,7 @@ deploy:
   on:
     tags: true
     all_branches: true
-    condition: $TRAVIS_OS_NAME=linux && $TRAVIS_GO_VERSION =~ ^1\.12
+    condition: $TRAVIS_OS_NAME=linux
 services:
   - docker
   - mongodb

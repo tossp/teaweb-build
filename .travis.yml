@@ -29,6 +29,8 @@ before_deploy:
   - cp configs/admin.sample.conf releases/configs/admin.conf
   - cp configs/server.sample.conf releases/configs/server.conf
   - cp configs/mongo.sample.conf releases/configs/mongo.conf
+  - cp configs/mysql.sample.conf releases/configs/mysql.conf
+  - cp configs/postgres.sample.conf releases/configs/postgres.conf
   - cp configs/server.sample.www.proxy.conf releases/configs/server.www.proxy.conf
   - cp -R configs/widgets releases/web/libs/
   - mkdir releases/web/tmp

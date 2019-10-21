@@ -207,7 +207,7 @@ body.expanded .main {
 .top-secondary-menu {
     position: fixed;
     top: 2.6em;
-    left: 9em;
+    left: 8.2em;
     right: 0;
     z-index: 100;
     background: white;
@@ -399,7 +399,7 @@ body.expanded .main {
 
 .sub-menu {
     position: fixed;
-    left: 9em;
+    left: 8em;
     width: 12.5em;
     top: 6em;
     bottom: 2.8em;

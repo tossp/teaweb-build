@@ -6,8 +6,8 @@ github.com/TeaWeb/agent v0.0.0-20190918104615-3f0b8c2dabca h1:J2BRPd2HwIewDod+Xx
 github.com/TeaWeb/agent v0.0.0-20190918104615-3f0b8c2dabca/go.mod h1:sKq3cDTMkEgazeYI4TKo03Xz9PTPwMZ2yiQnPg+qXLs=
 github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9 h1:uFHM1AU8+iHtv3Dscb5G4FG8MqDiT79RyTE5+SSLmgk=
 github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9/go.mod h1:RvsddRGxwRrdDxcVZAaOgn1md7ZNzFhqM/v9UxKpdV8=
-github.com/TeaWeb/code v0.1.8 h1:nWhkFUBo+rMBeBXI2fgc6hm+gQzQmrjcLQm/eGVefcM=
-github.com/TeaWeb/code v0.1.8/go.mod h1:adA5myW2JZ7qj/53ar6HUFNftRCbXadWJQhVj7iIulM=
+github.com/TeaWeb/code v0.1.73-0.20191019035203-454d624aadf3 h1:qsg3OEmP1TANeil1CRHHRjw5vGBtFupv0QcqFNo8NR4=
+github.com/TeaWeb/code v0.1.73-0.20191019035203-454d624aadf3/go.mod h1:adA5myW2JZ7qj/53ar6HUFNftRCbXadWJQhVj7iIulM=
 github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a h1:eBirFjqMtroy4c/kqy+wh1JHuDMNMzPSf4IupEYxt1A=
 github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a/go.mod h1:HZS9S9Dr7LiAMPAJtQn0A60wU6zFi/wZ49uK+g058R8=
 github.com/TeaWeb/uaparser v0.0.0-20190526084055-a1c9449348d8 h1:RB/ViZWtFrBoOBCl1G/BoK+vwN5fn1T6Nu0ZRAX+pzM=
@@ -18,6 +18,8 @@ github.com/cenkalti/backoff v2.1.1+incompatible h1:tKJnvO2kl0zmb/jA5UKAt4VoEVw1q
 github.com/cenkalti/backoff v2.1.1+incompatible/go.mod h1:90ReRw6GdpyfrHakVjL/QHaoyV4aDUVVkXQJJJ3NXXM=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dchest/captcha v0.0.0-20170622155422-6a29415a8364 h1:U+BMqUt8LFgyrF0/NKgPZdr1sGZ3j6uBECpOGcISpFI=
+github.com/dchest/captcha v0.0.0-20170622155422-6a29415a8364/go.mod h1:QGrK8vMWWHQYQ3QU9bw9Y9OPNfxccGzfb41qjvVeXtY=
 github.com/dchest/siphash v1.2.1 h1:4cLinnzVJDKxTCl9B01807Yiy+W7ZzVHj/KIroQRvT4=
 github.com/dchest/siphash v1.2.1/go.mod h1:q+IRvb2gOSrUnYoPqHiyHXS0FOBBOdl6tONBlVnOnt4=
 github.com/fsnotify/fsnotify v1.4.7 h1:IXs+QLmnXW2CcXuY+8Mzv/fWEsPGWxqefPtCP5CnV9I=

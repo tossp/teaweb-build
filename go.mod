@@ -7,11 +7,12 @@ require (
 	github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705 // indirect
 	github.com/TeaWeb/agent v0.0.0-20190918104615-3f0b8c2dabca
 	github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9
-	github.com/TeaWeb/code v0.1.8
+	github.com/TeaWeb/code v0.1.73-0.20191019035203-454d624aadf3
 	github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a
 	github.com/TeaWeb/uaparser v0.0.0-20190526084055-a1c9449348d8 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190430075129-62f3cb8727f4 // indirect
 	github.com/cenkalti/backoff v2.1.1+incompatible // indirect
+	github.com/dchest/captcha v0.0.0-20170622155422-6a29415a8364 // indirect
 	github.com/dchest/siphash v1.2.1 // indirect
 	github.com/go-acme/lego v2.6.0+incompatible // indirect
 	github.com/go-ole/go-ole v1.2.4 // indirect

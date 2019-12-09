@@ -2,7 +2,7 @@
  * 自动补全
  */
 Vue.component("auto-complete-box", {
-	props: ["name", "placeholder", "options", "value", "maxlength"],
+	props: ["name", "placeholder", "options", "value", "maxlength", "autocomplete"],
 	data: function () {
 		return {
 			newValue: this.value,
@@ -23,6 +23,9 @@ Vue.component("auto-complete-box", {
 	},
 	methods: {
 		search: function () {
+			if (this.autocomplete === false) {
+				return;
+			}
 			this.index = -1;
 			this.visible = (this.options.length > 0 && this.newValue.length > 0);
 			this.$emit("change", this.newValue);
@@ -102,7 +105,7 @@ Vue.component("auto-complete-box", {
  * 路径自动补全
  */
 Vue.component("auto-complete-path-box", {
-	props: ["name", "placeholder", "value", "maxlength"],
+	props: ["name", "placeholder", "value", "maxlength", "autocomplete"],
 	data: function () {
 		return {
 			"options": []
@@ -133,6 +136,7 @@ Vue.component("auto-complete-path-box", {
         :placeholder="this.placeholder" \
         :options="options" \
         :maxlength="maxlength" \
+        :autocomplete="autocomplete" \
         @change="change($event)"> \
             </auto-complete-box>'
 });
@@ -493,7 +497,7 @@ Vue.component("http-header-box", {
 });
 
 /**
- * Agent Group密钥管理
+ * HTTP参数
  */
 Vue.component("http-params", {
 	props: ["params", "comment", "prefix"],
@@ -961,6 +965,9 @@ Vue.component("request-cond-box", {
 		},
 		isArrayOperator: function (operator) {
 			return ["in", "not in", "file ext", "mime type"].$contains(operator);
+		},
+		hasValue: function (operator) {
+			return !["file exist", "file not exist"].$contains(operator);
 		}
 	},
 	template: '<div> \
@@ -1001,7 +1008,7 @@ Vue.component("request-cond-box", {
 						<p class="comment">{{vOperatorDescription}}</p> \
 					</td> \
 				</tr> \
-				<tr v-show="!isArrayOperator(vOperator)"> \
+				<tr v-show="!isArrayOperator(vOperator) && hasValue(vOperator)"> \
 					<td>对比值</td> \
 					<td> \
 						<textarea type="text"  v-model="vValue" rows="2" placeholder="对比值"/> \
@@ -1072,6 +1079,7 @@ Vue.component("server-page-box", {
 			vPrefix: (this.prefix == null) ? "" : this.prefix,
 			isAdding: false,
 			typicalPages: [
+				{"name": "403页面", "url": "web/pages/403.html"},
 				{"name": "404页面", "url": "web/pages/404.html"},
 				{"name": "50x页面", "url": "web/pages/50x.html"},
 				{"name": "暂时关闭英文页面", "url": "web/pages/shutdown_en.html"},

@@ -2,12 +2,12 @@ github.com/Microsoft/go-winio v0.4.12 h1:xAfWHN1IrQ0NJ9TBC0KBZoqLjzDTr1ML+4MywiU
 github.com/Microsoft/go-winio v0.4.12/go.mod h1:VhR8bwka0BXejwEJY73c50VrPtXAaKcyvVC4A4RozmA=
 github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705 h1:UUppSQnhf4Yc6xGxSkoQpPhb7RVzuv5Nb1mwJ5VId9s=
 github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705/go.mod h1:3eOhrUMpNV+6aFIbp5/iudMxNCF27Vw2OZgy4xEx0Fg=
-github.com/TeaWeb/agent v0.0.0-20190918104615-3f0b8c2dabca h1:J2BRPd2HwIewDod+Xxdp5JOUKU/o8tjZOJ7tv0TlVG8=
-github.com/TeaWeb/agent v0.0.0-20190918104615-3f0b8c2dabca/go.mod h1:sKq3cDTMkEgazeYI4TKo03Xz9PTPwMZ2yiQnPg+qXLs=
+github.com/TeaWeb/agent v0.0.0-20191129072344-6274ce47207a h1:mnPY948EeM107HWiX38/pK/vQpLBEpp+WinOb3lA11U=
+github.com/TeaWeb/agent v0.0.0-20191129072344-6274ce47207a/go.mod h1:sKq3cDTMkEgazeYI4TKo03Xz9PTPwMZ2yiQnPg+qXLs=
 github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9 h1:uFHM1AU8+iHtv3Dscb5G4FG8MqDiT79RyTE5+SSLmgk=
 github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9/go.mod h1:RvsddRGxwRrdDxcVZAaOgn1md7ZNzFhqM/v9UxKpdV8=
-github.com/TeaWeb/code v0.1.73-0.20191019035203-454d624aadf3 h1:qsg3OEmP1TANeil1CRHHRjw5vGBtFupv0QcqFNo8NR4=
-github.com/TeaWeb/code v0.1.73-0.20191019035203-454d624aadf3/go.mod h1:adA5myW2JZ7qj/53ar6HUFNftRCbXadWJQhVj7iIulM=
+github.com/TeaWeb/code v0.1.73-0.20191202094046-09e497227d16 h1:giJrytMjMbNgDTpgf2bv1RvEVjPvm73toP4IBnVQMJ0=
+github.com/TeaWeb/code v0.1.73-0.20191202094046-09e497227d16/go.mod h1:adA5myW2JZ7qj/53ar6HUFNftRCbXadWJQhVj7iIulM=
 github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a h1:eBirFjqMtroy4c/kqy+wh1JHuDMNMzPSf4IupEYxt1A=
 github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a/go.mod h1:HZS9S9Dr7LiAMPAJtQn0A60wU6zFi/wZ49uK+g058R8=
 github.com/TeaWeb/uaparser v0.0.0-20190526084055-a1c9449348d8 h1:RB/ViZWtFrBoOBCl1G/BoK+vwN5fn1T6Nu0ZRAX+pzM=
@@ -32,6 +32,8 @@ github.com/go-sql-driver/mysql v1.4.1 h1:g24URVg0OFbNUTx9qqY1IRZ9D9z3iPyi5zKhQZp
 github.com/go-sql-driver/mysql v1.4.1/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
 github.com/go-stack/stack v1.8.0 h1:5SgMzNM5HxrEjV0ww2lTmX6E2Izsfxas4+YHWRs3Lsk=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
+github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible h1:2cauKuaELYAEARXRkq2LrJ0yDDv1rW7+wrTEdVL3uaU=
+github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible/go.mod h1:qf9acutJ8cwBUhm1bqgz6Bei9/C/c93FPDljKWwsOgM=
 github.com/go-yaml/yaml v2.1.0+incompatible h1:RYi2hDdss1u4YE7GwixGzWwVo47T8UQwnTLB6vQiq+o=
 github.com/go-yaml/yaml v2.1.0+incompatible/go.mod h1:w2MrLa16VYP0jy6N7M5kHaCkaLENm+P+Tv+MfurjSw0=
 github.com/golang/protobuf v1.2.0 h1:P3YflyNX/ehuJFLhxviNdFxQPkGK5cDcApsge1SqnvM=
@@ -50,6 +52,8 @@ github.com/iwind/TeaGo v0.0.0-20191007090339-daba0bb6607e h1:bxD34HpyJWx6bnGdahZ
 github.com/iwind/TeaGo v0.0.0-20191007090339-daba0bb6607e/go.mod h1:taNzU+Tt7Axz5t1v8pEV7xRuioNJxbMeMAbDVQpxq20=
 github.com/iwind/gofcgi v0.0.0-20181229122301-daea2786cb0d h1:nxDdqzn7XmgGZCrUx2qyl6W5qHp2ioR8aXB9YgQ9qMA=
 github.com/iwind/gofcgi v0.0.0-20181229122301-daea2786cb0d/go.mod h1:Z/PdoqueJP653H+hs+zp93mwMI2MS+xJDYf9WCuZNL8=
+github.com/jlaffaye/ftp v0.0.0-20191025175106-a59fe673c9b2 h1:WY3P4euRv9s8F2rpZUK1jnk4ZMiV3O2ltdnoZK/GTUU=
+github.com/jlaffaye/ftp v0.0.0-20191025175106-a59fe673c9b2/go.mod h1:PwUeyujmhaGohgOf0kJKxPfk3HcRv8QD/wAUN44go4k=
 github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af h1:pmfjZENx5imkbgOkpRUYLnmbU7UEFbjtDA2hxJ1ichM=
 github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af/go.mod h1:Nht3zPeWKUH0NzdCt2Blrr5ys8VGpn0CEB0cQHVjt7k=
 github.com/json-iterator/go v1.1.6 h1:MrUvLMLTMxbqFJ9kzlvat/rYZqZnW3u4wkLzWTaFwKs=
@@ -98,12 +102,14 @@ github.com/smartystreets/assertions v0.0.0-20180927180507-b2de0cb4f26d/go.mod h1
 github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a h1:pa8hGb/2YqsZKovtsgrwcDH1RZhVbTKCjLp47XpqCDs=
 github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a/go.mod h1:syvi0/a8iFYH4r/RixwvyeAJjdLS9QV7WQ/tjFTllLA=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
-github.com/stretchr/testify v1.3.0 h1:TivCn/peBQ7UY8ooIcPgZFpTNSz0Q2U6UrFlUfqbe0Q=
-github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
+github.com/stretchr/testify v1.4.0 h1:2E4SXV/wtOkTonXsotYi4li6zVWxYlZuYNCXe9XRJyk=
+github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/syndtr/goleveldb v1.0.0 h1:fBdIW9lB4Iz0n9khmH8w27SJ3QEJ7+IgjPEwGSZiFdE=
 github.com/syndtr/goleveldb v1.0.0/go.mod h1:ZVVdQEZoIme9iO1Ch2Jdy24qqXrMMOU6lpPAyBWyWuQ=
 github.com/tatsushid/go-fastping v0.0.0-20160109021039-d7bb493dee3e h1:nt2877sKfojlHCTOBXbpWjBkuWKritFaGIfgQwbQUls=
 github.com/tatsushid/go-fastping v0.0.0-20160109021039-d7bb493dee3e/go.mod h1:B4+Kq1u5FlULTjFSM707Q6e/cOHFv0z/6QRoxubDIQ8=
+github.com/technoweenie/multipartstreamer v1.0.1 h1:XRztA5MXiR1TIRHxH2uNxXxaIkKQDeX7m2XsSOlQEnM=
+github.com/technoweenie/multipartstreamer v1.0.1/go.mod h1:jNVxdtShOxzAsukZwTSw6MDx5eUJoiEBsSvzDU9uzog=
 github.com/tidwall/pretty v0.0.0-20190325153808-1166b9ac2b65 h1:rQ229MBgvW68s1/g6f1/63TgYwYxfF4E+bi/KC19P8g=
 github.com/tidwall/pretty v0.0.0-20190325153808-1166b9ac2b65/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
 github.com/tossp/teaweb-lego v0.0.0-20190606070638-5d2242ad2167 h1:sN8vU24N69dNZqNyoW7iAEZ+WHnPiRL6ETPyVzhYEVc=
@@ -151,3 +157,5 @@ gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 h1:uRGJdciOHaEIrze2W8Q3AKkep
 gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7/go.mod h1:dt/ZhP58zS4L8KSrWDmTeBkI65Dw0HsyUHuEVlX15mw=
 gopkg.in/yaml.v2 v2.2.1 h1:mUhvW9EsL+naU5Q3cakzfE91YhliOondGd6ZrsDBHQE=
 gopkg.in/yaml.v2 v2.2.1/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
+gopkg.in/yaml.v2 v2.2.2 h1:ZCJp+EgiOT7lHqUV2J862kp8Qj64Jo6az82+3Td9dZw=
+gopkg.in/yaml.v2 v2.2.2/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=

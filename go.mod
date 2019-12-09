@@ -5,9 +5,9 @@ go 1.13
 require (
 	github.com/Microsoft/go-winio v0.4.12 // indirect
 	github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705 // indirect
-	github.com/TeaWeb/agent v0.0.0-20190918104615-3f0b8c2dabca
+	github.com/TeaWeb/agent v0.0.0-20191129072344-6274ce47207a
 	github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9
-	github.com/TeaWeb/code v0.1.73-0.20191019035203-454d624aadf3
+	github.com/TeaWeb/code v0.1.73-0.20191202094046-09e497227d16
 	github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a
 	github.com/TeaWeb/uaparser v0.0.0-20190526084055-a1c9449348d8 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190430075129-62f3cb8727f4 // indirect
@@ -19,11 +19,13 @@ require (
 	github.com/go-redis/redis v6.15.2+incompatible // indirect
 	github.com/go-sql-driver/mysql v1.4.1 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
+	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible // indirect
 	github.com/go-yaml/yaml v2.1.0+incompatible // indirect
 	github.com/google/go-cmp v0.3.0 // indirect
 	github.com/gorilla/websocket v1.4.0 // indirect
 	github.com/iwind/TeaGo v0.0.0-20191007090339-daba0bb6607e
 	github.com/iwind/gofcgi v0.0.0-20181229122301-daea2786cb0d // indirect
+	github.com/jlaffaye/ftp v0.0.0-20191025175106-a59fe673c9b2 // indirect
 	github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af // indirect
 	github.com/json-iterator/go v1.1.6 // indirect
 	github.com/kr/fs v0.1.0 // indirect
@@ -42,9 +44,9 @@ require (
 	github.com/shirou/gopsutil v2.18.12+incompatible // indirect
 	github.com/shirou/w32 v0.0.0-20160930032740-bb4de0191aa4 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a // indirect
-	github.com/stretchr/testify v1.3.0 // indirect
 	github.com/syndtr/goleveldb v1.0.0 // indirect
 	github.com/tatsushid/go-fastping v0.0.0-20160109021039-d7bb493dee3e // indirect
+	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
 	github.com/tidwall/pretty v0.0.0-20190325153808-1166b9ac2b65 // indirect
 	github.com/vmihailenco/msgpack v4.0.4+incompatible // indirect
 	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect

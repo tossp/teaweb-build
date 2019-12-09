@@ -51,7 +51,8 @@
                     <span class="ui label tiny red" v-if="!location.on">未启用</span>
                     <span class="ui label tiny" v-if="location.isCaseInsensitive">不区分大小写</span>
                     <span class="ui label tiny" v-if="location.isReverse">反向匹配</span>
-                    <span class="ui label tiny" v-if="location.root.length > 0">root</span>
+					<span class="ui label tiny" v-if="location.isBreak">break</span>
+					<span class="ui label tiny" v-if="location.root.length > 0">root</span>
 					<span class="ui label tiny" v-if="location.index != null && location.index.length > 0">index</span>
 					<span class="ui label tiny" v-if="location.gzipLevel > 0">gzip:{{location.gzipLevel}}</span>
                     <span class="ui label tiny" v-if="location.cachePolicy != null">cache</span>
@@ -66,6 +67,9 @@
                     <p v-for="rewrite in location.rewrite">
                         <span class="ui label tiny">rewrite {{rewrite.pattern}} -&gt; {{rewrite.replace}}</span>
                     </p>
+					<div v-for="backend in location.backends">
+						<div class="ui label tiny">proxy {{location.pattern}} -&gt; <span v-if="backend.scheme != null && backend.scheme.length > 0">{{backend.scheme}}://</span>{{backend.address}}{{backend.requestURI}}</div>
+					</div>
                 </td>
                 <td>
                     <a :href="$url('/proxy/locations/detail', { 'serverId':server.id,'locationId':location.id })">详情</a> &nbsp;

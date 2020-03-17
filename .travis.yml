@@ -11,7 +11,7 @@ script:
   #  - go vet ./...
   #  - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
   #  - go test -v -tags=integration -run=^$ ./test/integration # Check that integration test builds successfully, but don't run any of the tests (they hit live GitHub API).
-  - curl -s "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=gue2VsUdfd5SUw6l&suffix=tar.gz" -o GeoLite2-City.tar.gz
+  - curl -s "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${MAXMIND_LICENSE_KEY}&suffix=tar.gz" -o GeoLite2-City.tar.gz
   - tar -xzf GeoLite2-City.tar.gz
   - find . -name '*.mmdb' -exec mv {} ./web/resources/GeoLite2-City/ \;
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then go build -o core -ldflags '-s -w' misc/exe/teaweb/main.go ; fi
@@ -24,7 +24,7 @@ script:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 before_deploy:
-  - curl -s "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=gue2VsUdfd5SUw6l&suffix=tar.gz" -o GeoLite2-City.tar.gz
+  - curl -s "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=${MAXMIND_LICENSE_KEY}&suffix=tar.gz" -o GeoLite2-City.tar.gz
   - tar -xzf GeoLite2-City.tar.gz
   - find . -name '*.mmdb' -exec mv {} ./web/resources/GeoLite2-City/ \;
   - mkdir -p releases/{bin,plugins}

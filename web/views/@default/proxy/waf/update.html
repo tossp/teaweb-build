@@ -2,11 +2,6 @@
 {$template "menu"}
 {$template "detail_menu"}
 
-<!-- 组件 -->
-{$var "header"}
-<script src="/js/vue.components.js" type="text/javascript"></script>
-{$end}
-
 <form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" style="margin-top:1em">
 	<input type="hidden" name="wafId" :value="config.id"/>
 	<table class="ui table definition selectable">
@@ -43,6 +38,7 @@
 							<td class="title">HTTP状态码</td>
 							<td>
 								<input type="text" name="blockStatusCode" v-model="config.actionBlock.statusCode" value="" size="3" maxlength="3" style="width:4em" />
+								<p class="comment">如果是444则直接关闭此终端连接。</p>
 							</td>
 						</tr>
 						<tr>

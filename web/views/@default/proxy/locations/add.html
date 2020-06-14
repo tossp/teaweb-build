@@ -3,19 +3,10 @@
 <!-- 拖动排序 -->
 {$var "header"}
 <script type="text/javascript" src="/js/sortable.min.js"></script>
-<script src="/js/vue.components.js" type="text/javascript"></script>
 {$end}
 
-<!-- 检测配置是否有更新 begins -->
-<div class="ui icon message warning" v-if="statusChanged">
-    <i class="exclamation circle icon large"></i>
-    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
-</div>
-
-{$var "header"}
-<script src="/_/@default/proxy/@global.js" type="text/javascript"></script>
-{$end}
-<!--  检测配置是否有更新 end -->
+<!-- 检测配置更新 -->
+<proxy-change-notify-box></proxy-change-notify-box>
 
 <div>
     {$template "/proxy/menu"}
@@ -74,10 +65,27 @@
 					</td>
 				</tr>
 				<tr>
-					<td>匹配条件</td>
+					<td>更多匹配条件</td>
 					<td>
 						<request-cond-box prefix="request" :operators="condOperators" :variables="condVariables"></request-cond-box>
 						<p class="comment">满足以上条件时路径规则才会生效。参数中可以使用一些内置的变量：<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">点击这里查看</a>，比如${arg.name}表示名为name的参数值</p>
+					</td>
+				</tr>
+				<tr>
+					<td>禁止访问条件</td>
+					<td>
+						<request-cond-box prefix="deny" :operators="condOperators" :variables="condVariables"></request-cond-box>
+						<p class="comment">满足以上任一条件时，用户访问时会返回<span class="ui label tiny">403 Forbidden</span>。参数中可以使用一些内置的变量：<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">点击这里查看</a>，比如${arg.name}表示名为name的参数值</p>
+					</td>
+				</tr>
+				<tr>
+					<td>禁止所有访问</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="denyAll" value="1"/>
+							<label></label>
+						</div>
+						<p class="comment">匹配到当前路径规则的请求立即返回<span class="ui label tiny">403 Forbidden</span>。</p>
 					</td>
 				</tr>
                 <tr>

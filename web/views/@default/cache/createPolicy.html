@@ -1,10 +1,5 @@
 {$layout}
 
-<!-- 组件 -->
-{$var "header"}
-<script src="/js/vue.components.js" type="text/javascript"></script>
-{$end}
-
 <div class="ui menu text blue small top-menu">
     <a class="item" href="/cache">策略列表</a>
     <a class="item active" href="/cache/createPolicy">+添加新策略</a>
@@ -38,13 +33,25 @@
         </tr>
 
         <!-- 文件缓存 -->
-        <tr v-if="cacheType == 'file'">
-            <td>缓存存放目录</td>
-            <td>
-                <input type="text" name="fileDir" value="./cache"/>
-                <p class="ui comment">如果需要修改，请填写相对于TeaWeb安装目录的相对路径，或者是一个绝对路径。</p>
-            </td>
-        </tr>
+		<tbody v-if="cacheType == 'file'">
+			<tr>
+				<td>缓存存放目录</td>
+				<td>
+					<input type="text" name="fileDir" value="./cache"/>
+					<p class="ui comment">如果需要修改，请填写相对于TeaWeb安装目录的相对路径，或者是一个绝对路径。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>是否自动创建目录</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="fileAutoCreate" value="1" checked="checked"/>
+						<label></label>
+					</div>
+					<p class="comment">当缓存目录不存在时会试图自动创建。</p>
+				</td>
+			</tr>
+		</tbody>
 
         <!-- Redis缓存 -->
 		<tbody v-if="cacheType == 'redis'">

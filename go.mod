@@ -1,13 +1,13 @@
 module teaweb
 
-go 1.13
+go 1.14.4
 
 require (
 	github.com/Microsoft/go-winio v0.4.12 // indirect
 	github.com/StackExchange/wmi v0.0.0-20181212234831-e0a55b97c705 // indirect
 	github.com/TeaWeb/agent v0.0.0-20191129072344-6274ce47207a
 	github.com/TeaWeb/agentinstaller v0.0.0-20190530050440-5fefd21025a9
-	github.com/TeaWeb/code v0.1.73-0.20200317085238-2731f9f8000e
+	github.com/TeaWeb/code v0.1.11-0.20200611035839-34c7c0dfd263
 	github.com/TeaWeb/plugin v0.0.0-20190202040243-6fb957e0eb4a
 	github.com/TeaWeb/uaparser v0.0.0-20190526084055-a1c9449348d8 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190430075129-62f3cb8727f4 // indirect

@@ -3,6 +3,13 @@ Tea.context(function () {
 		this.teaweb = teaweb;
 	}
 
+	this.$delay(function () {
+		var focusInput = this.$refs.focusInput;
+		if (focusInput != null) {
+			focusInput.focus();
+		}
+	});
+
 	/**
 	 * 测试MongoDB连接
 	 */
@@ -158,3 +165,7 @@ Tea.context(function () {
 		modal.className = "modal visible";
 	};
 });
+
+window.NotifyPopup = function (resp) {
+	window.parent.teaweb.popupFinish(resp);
+};

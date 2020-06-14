@@ -1,10 +1,5 @@
 {$layout}
 
-<!-- 组件 -->
-{$var "header"}
-<script src="/js/vue.components.js" type="text/javascript"></script>
-{$end}
-
 <!-- 拖动排序 -->
 {$var "header"}
 <script type="text/javascript" src="/js/sortable.min.js"></script>
@@ -15,6 +10,8 @@
 
 	{$if .isTCP}
 		{$template "update_tcp"}
+	{$else if .isForwardHTTP}
+		{$template "update_forward_http"}
 	{$else}
 		{$template "update_http"}
 	{$end}

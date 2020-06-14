@@ -1,6 +1,6 @@
 module teaweb
 
-go 1.14.4
+go 1.14
 
 require (
 	github.com/Microsoft/go-winio v0.4.12 // indirect
